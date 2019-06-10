@@ -31,7 +31,7 @@ class CategoryDeleteMailable extends Mailable
     {
         return $this->subject('Xóa Danh Mục')
             ->view('backend.mail_template.delete_category', [
-                'category'=>$this->category
+                'category' => $this->category
             ]);
     }
 }

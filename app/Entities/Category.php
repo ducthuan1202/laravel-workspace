@@ -2,9 +2,6 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-
 /**
  * Class Category
  * @package App\Entities

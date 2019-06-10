@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2de2dedc-f595-4f87-a493-27c6d238c127" name="Default Changelist" comment="" />
+    <list default="true" id="2de2dedc-f595-4f87-a493-27c6d238c127" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Observers/CategoryObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/CategoryObserver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,44 +30,46 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="2" />
-          <entry key="env" value="4" />
+          <entry key="env" value="5" />
+          <entry key="example" value="1" />
           <entry key="js" value="4" />
           <entry key="json" value="2" />
           <entry key="md" value="2" />
-          <entry key="php" value="144" />
+          <entry key="php" value="145" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key=".env file" value="4" />
+          <entry key=".env file" value="6" />
           <entry key="Blade" value="43" />
           <entry key="CSS" value="2" />
           <entry key="JSON" value="2" />
           <entry key="JavaScript" value="4" />
           <entry key="Markdown" value="2" />
-          <entry key="PHP" value="101" />
+          <entry key="PHP" value="102" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="5" />
           <entry key="dummy" value="42" />
-          <entry key="env" value="32" />
+          <entry key="env" value="34" />
+          <entry key="example" value="18" />
           <entry key="js" value="69" />
           <entry key="json" value="35" />
           <entry key="md" value="97" />
-          <entry key="php" value="4715" />
+          <entry key="php" value="5200" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key=".env file" value="32" />
+          <entry key=".env file" value="52" />
           <entry key="Blade" value="1312" />
           <entry key="CSS" value="5" />
           <entry key="JSON" value="35" />
           <entry key="JavaScript" value="69" />
           <entry key="Markdown" value="97" />
-          <entry key="PHP" value="3403" />
+          <entry key="PHP" value="3888" />
           <entry key="PLAIN_TEXT" value="42" />
         </counts>
       </usages-collector>
@@ -77,8 +85,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Observers/CategoryObserver.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="766">
-              <caret line="92" column="5" lean-forward="true" selection-start-line="71" selection-end-line="92" selection-end-column="5" />
+            <state relative-caret-position="442">
+              <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
               <folding>
                 <element signature="e#33#59#0#PHP" expanded="true" />
               </folding>
@@ -87,10 +95,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+              <folding>
+                <element signature="e#28#54#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Backend/LogController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="38" column="53" selection-start-line="38" selection-start-column="53" selection-end-line="38" selection-end-column="53" />
+            <state relative-caret-position="442">
+              <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -98,8 +118,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+            <state relative-caret-position="289">
+              <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -107,30 +127,23 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Entities/Category.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="71" column="5" lean-forward="true" selection-start-line="71" selection-start-column="5" selection-end-line="71" selection-end-column="5" />
+            <state relative-caret-position="204">
+              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
               <folding>
-                <element signature="e#32#71#0#PHP" expanded="true" />
+                <element signature="e#652#1831#0#PHP" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Repositories/LogRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="43" column="23" lean-forward="true" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Frontend/HomeController.php" />
         <option value="$PROJECT_DIR$/resources/views/frontend/home/index.blade.php" />
         <option value="$PROJECT_DIR$/public/frontend/css/app.css" />
         <option value="$PROJECT_DIR$/resources/views/frontend/layouts/main.blade.php" />
@@ -175,12 +188,13 @@
         <option value="$PROJECT_DIR$/app/Mail/CategoryDelete.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/mail_template/delete_category.blade.php" />
         <option value="$PROJECT_DIR$/config/app.php" />
-        <option value="$PROJECT_DIR$/.env" />
-        <option value="$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php" />
         <option value="$PROJECT_DIR$/app/Repositories/LogRepository.php" />
-        <option value="$PROJECT_DIR$/app/Observers/CategoryObserver.php" />
-        <option value="$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php" />
         <option value="$PROJECT_DIR$/app/Entities/Category.php" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/.env.example" />
+        <option value="$PROJECT_DIR$/app/Observers/CategoryObserver.php" />
+        <option value="$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php" />
+        <option value="$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php" />
       </list>
     </option>
   </component>
@@ -291,6 +305,7 @@
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -463,12 +478,12 @@
       <option name="presentableId" value="Default" />
       <updated>1560137153975</updated>
       <workItem from="1560137155500" duration="17366000" />
-      <workItem from="1560162246572" duration="2181000" />
+      <workItem from="1560162246572" duration="3065000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19547000" />
+    <option name="totallyTimeSpent" value="20431000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -503,7 +518,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Helpers/Functions.php" />
     <entry file="file://$PROJECT_DIR$/app/Helpers/Utils.php" />
     <entry file="file://$PROJECT_DIR$/app/Providers/HelperServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor" />
@@ -765,23 +779,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="33" column="24" lean-forward="true" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="43" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
-          <folding>
-            <element signature="e#28#54#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Repositories/LogRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="731">
@@ -789,36 +786,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Backend/LogController.php">
+    <entry file="file://$PROJECT_DIR$/.env.example">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="38" column="53" selection-start-line="38" selection-start-column="53" selection-end-line="38" selection-end-column="53" />
+        <state relative-caret-position="408">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php">
+    <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+        <state relative-caret-position="551">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Observers/CategoryObserver.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="766">
-          <caret line="92" column="5" lean-forward="true" selection-start-line="71" selection-end-line="92" selection-end-column="5" />
+        <state relative-caret-position="442">
+          <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
           <folding>
             <element signature="e#33#59#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+          <folding>
+            <element signature="e#28#54#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Backend/LogController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Entities/Category.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="71" column="5" lean-forward="true" selection-start-line="71" selection-start-column="5" selection-end-line="71" selection-end-column="5" />
+        <state relative-caret-position="204">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
           <folding>
-            <element signature="e#32#71#0#PHP" expanded="true" />
+            <element signature="e#652#1831#0#PHP" />
           </folding>
         </state>
       </provider>

@@ -13,7 +13,7 @@
             <th>Hành động</th>
             <th>Chi tiết</th>
             <th>Thời gian</th>
-            <th> &nbsp; </th>
+            <th> &nbsp;</th>
         </tr>
         </thead>
         <tbody>
