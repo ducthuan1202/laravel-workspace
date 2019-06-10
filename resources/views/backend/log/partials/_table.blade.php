@@ -21,7 +21,7 @@
         @if($data->isNotEmpty())
 
             @foreach($data as $index => $item)
-                <tr>
+                <tr style="background-color: {{ $item->formatClassLog() }}">
                     <td>{{ $index + $data->firstItem() }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->action }}</td>

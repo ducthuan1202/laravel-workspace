@@ -19,9 +19,9 @@ namespace App\Entities;
 class Log extends BaseModel
 {
     const
-        ACTION_CREATE = 'create',
-        ACTION_UPDATE = 'update',
-        ACTION_DELETE = 'delte';
+        ACTION_CREATE = 'CREATE',
+        ACTION_UPDATE = 'UPDATE',
+        ACTION_DELETE = 'DELETE';
 
     /** @var string $table */
     protected $table = 'logs';
@@ -41,5 +41,22 @@ class Log extends BaseModel
             $log->created_by = 1;
         });
 
+    }
+
+    public function formatClassLog(){
+        switch($this->action){
+            case self::ACTION_CREATE:
+                return '#c4d8ad';
+                break;
+            case self::ACTION_UPDATE:
+                return '#afccd0';
+                break;
+            case self::ACTION_DELETE:
+                return '#e8cda4';
+                break;
+            default:
+                return '#fff';
+                break;
+        }
     }
 }

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2de2dedc-f595-4f87-a493-27c6d238c127" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Category.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/CategoryObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/CategoryObserver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/Log.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Log.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,7 +32,7 @@
           <entry key="js" value="4" />
           <entry key="json" value="2" />
           <entry key="md" value="2" />
-          <entry key="php" value="145" />
+          <entry key="php" value="146" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -46,7 +43,7 @@
           <entry key="JSON" value="2" />
           <entry key="JavaScript" value="4" />
           <entry key="Markdown" value="2" />
-          <entry key="PHP" value="102" />
+          <entry key="PHP" value="103" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -58,18 +55,18 @@
           <entry key="js" value="69" />
           <entry key="json" value="35" />
           <entry key="md" value="97" />
-          <entry key="php" value="5200" />
+          <entry key="php" value="5438" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key=".env file" value="52" />
-          <entry key="Blade" value="1312" />
+          <entry key="Blade" value="1362" />
           <entry key="CSS" value="5" />
           <entry key="JSON" value="35" />
           <entry key="JavaScript" value="69" />
           <entry key="Markdown" value="97" />
-          <entry key="PHP" value="3888" />
+          <entry key="PHP" value="4076" />
           <entry key="PLAIN_TEXT" value="42" />
         </counts>
       </usages-collector>
@@ -118,13 +115,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+            <state relative-caret-position="340">
+              <caret line="23" column="49" lean-forward="true" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Entities/Log.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="664">
+              <caret line="57" column="28" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Entities/Category.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
@@ -180,7 +186,6 @@
         <option value="$PROJECT_DIR$/app/Entities/BaseModel.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Backend/CategoryController.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/category/form.blade.php" />
-        <option value="$PROJECT_DIR$/app/Entities/Log.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Backend/LogController.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/layouts/partials/sidebar.blade.php" />
         <option value="$PROJECT_DIR$/routes/backend.php" />
@@ -195,6 +200,7 @@
         <option value="$PROJECT_DIR$/app/Observers/CategoryObserver.php" />
         <option value="$PROJECT_DIR$/app/Mail/CategoryDeleteMailable.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php" />
+        <option value="$PROJECT_DIR$/app/Entities/Log.php" />
       </list>
     </option>
   </component>
@@ -478,12 +484,12 @@
       <option name="presentableId" value="Default" />
       <updated>1560137153975</updated>
       <workItem from="1560137155500" duration="17366000" />
-      <workItem from="1560162246572" duration="3065000" />
+      <workItem from="1560162246572" duration="3615000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20431000" />
+    <option name="totallyTimeSpent" value="20981000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -723,13 +729,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Entities/Log.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/backend/layouts/partials/sidebar.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -820,6 +819,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Entities/Category.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding>
+            <element signature="e#652#1831#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Backend/LogController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -829,18 +838,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/backend/log/partials/_table.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+        <state relative-caret-position="340">
+          <caret line="23" column="49" lean-forward="true" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Entities/Category.php">
+    <entry file="file://$PROJECT_DIR$/app/Entities/Log.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-          <folding>
-            <element signature="e#652#1831#0#PHP" />
-          </folding>
+        <state relative-caret-position="664">
+          <caret line="57" column="28" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
         </state>
       </provider>
     </entry>
