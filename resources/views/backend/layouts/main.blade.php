@@ -15,7 +15,7 @@
 </head>
 <body>
 
-@include('backend.layouts.partials.header')
+{{--@include('backend.layouts.partials.header')--}}
 
 <div class="container-fluid">
     <div class="row">

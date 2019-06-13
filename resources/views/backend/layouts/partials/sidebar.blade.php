@@ -1,5 +1,28 @@
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
+
+        <ul class="nav flex-column">
+            @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ admin_route('login') }}">{{ __('Login') }}</a>
+                </li>
+            @else
+                <li class="nav-item dropdown bg-secondary">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="#">{{__('Thông tin')}}</a>
+                        <a class="dropdown-item" href="{{ admin_route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> {{ __('Logout') }} </a>
+                    </div>
+
+                    <form id="logout-form" action="{{ admin_route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            @endguest
+        </ul>
+
+
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link active" href="#">
