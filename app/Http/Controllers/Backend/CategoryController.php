@@ -46,9 +46,12 @@ class CategoryController extends BackendController
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create', Category::class);
+
         return view($this->getView('form'), [
             'title' => sprintf('Tạo mới [%s].', $this->title),
             'model' => $this->repository->getModel(),
@@ -58,9 +61,11 @@ class CategoryController extends BackendController
     /**
      * @param CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CategoryRequest $request)
     {
+        $this->authorize('store', Category::class);
         try {
 
             $this->repository->getModel()->fill($request->all())->save();
@@ -77,9 +82,12 @@ class CategoryController extends BackendController
     /**
      * @param Category $category
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Category $category)
     {
+        $this->authorize('view', $category);
+
         return view($this->getView('show'), [
             'title' => sprintf('%s %s', $this->title, $category->name),
             'model' => $category,
@@ -89,9 +97,13 @@ class CategoryController extends BackendController
     /**
      * @param Category $category
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Category $category)
     {
+
+        $this->authorize('edit', $category);
+
         return view($this->getView('form'), [
             'title' => sprintf('%s: %s', $this->title, $category->name),
             'model' => $category,
@@ -102,9 +114,12 @@ class CategoryController extends BackendController
      * @param CategoryRequest $request
      * @param Category $category
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(CategoryRequest $request, Category $category)
     {
+        $this->authorize('update', $category);
+
         try {
 
             $this->repository->setModel($category)->fill($request->all())->save();
@@ -125,6 +140,8 @@ class CategoryController extends BackendController
      */
     public function destroy(Category $category)
     {
+        $this->authorize('delete', $category);
+
         try {
 
             $category->delete();

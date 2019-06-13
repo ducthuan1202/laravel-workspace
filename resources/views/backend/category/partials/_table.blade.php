@@ -32,7 +32,7 @@
 
                             <a href="{{ admin_route('categories.edit', $item->id) }}" class="btn btn-primary"> Sửa </a>
 
-                            <a href="javascript:void(0);" class="btn btn-danger" onclick="BackendApp.confirmFormDelete('{{'destroyForm_'.$item->id}}');"> Xóa </a>
+                            <a href="javascript:void(0);" class="btn btn-danger" onclick="BackendApp.confirmFormDelete('{{'destroyForm_'.$item->id}}', true);"> Xóa </a>
                         </div>
 
                         {{ Form::open([ 'url' => admin_route('categories.destroy', $item->id), 'method' => 'POST', 'style'=>'display:none', 'class'=>'d-none', 'id'=> 'destroyForm_'.$item->id])}}

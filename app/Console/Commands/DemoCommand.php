@@ -11,7 +11,7 @@ class DemoCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'demoCmd';
 
     /**
      * The console command description.
@@ -37,6 +37,6 @@ class DemoCommand extends Command
      */
     public function handle()
     {
-        //
+        $this->comment('xin chào, đây là demo command trong Laravel');
     }
 }

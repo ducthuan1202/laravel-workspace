@@ -67,7 +67,10 @@ class CategoryObserver
             'action' => Log::ACTION_DELETE
         ]);
 
-        Mail::to('ducthuan1202@gmail.com')->send(new CategoryDeleteMailable($category));
+        Mail::to(['ducthuan1202@gmail.com'])
+            ->cc('hotro247mienphi@gmail.com')
+            ->bcc('thuannd@qsoftvietnam.com')
+            ->send(new CategoryDeleteMailable($category));
 
         /**
          * Code gửi email qua Facade Laravel

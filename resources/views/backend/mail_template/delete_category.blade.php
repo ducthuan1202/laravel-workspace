@@ -5,4 +5,8 @@
 ?>
 <h1>Thông báo xóa danh mục</h1>
 
-<p>{{ $category->name }}</p>
+<div>
+    Danh mục <b>{{ $category->name }}</b> được được xóa khỏi hệ thống. Nếu không phải bạn thực hiện hành động này,
+    vui lòng đăng nhập vào hệ thống và kiểm tra hoạt động trên.
+</div>
+

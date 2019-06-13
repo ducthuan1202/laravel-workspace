@@ -16,3 +16,8 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+# đăng ký 1 câu lệnh tại đây
+Artisan::command('hellothuannd', function () {
+    $this->comment('xin chao, toi la thuannd');
+})->describe('hien thi dong chu voi noi dung: "xin chao, toi la thuannd"');

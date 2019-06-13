@@ -13,12 +13,17 @@ class HomeController extends BackendController
         $this->title = 'Trang thống kê';
         $this->viewFolder = 'home';
         $this->routePrefix = 'home';
+
     }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(){
+
+        $this->authorize('isAdmin');
+
         return view($this->getView('index'), [
             'title'=> $this->title
         ]);

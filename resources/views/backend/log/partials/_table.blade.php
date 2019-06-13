@@ -28,7 +28,6 @@
                     <td>{!! $item->content !!}</td>
                     <td>{{ $item->created_at }}</td>
                 </tr>
-
             @endforeach
         @else
             <tr>
