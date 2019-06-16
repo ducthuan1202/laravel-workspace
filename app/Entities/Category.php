@@ -2,6 +2,10 @@
 
 namespace App\Entities;
 
+use App\Scopes\CreateByMeScope;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * Class Category
  * @package App\Entities
@@ -23,12 +27,18 @@ class Category extends BaseModel
     /** @var array $fillable */
     protected $fillable = ['created_by', 'name', 'slug', 'image'];
 
+
     /**
      * Thực hiện các hành động theo event của eloquent model
      */
-    public static function bootsss()
+    public static function boot()
     {
         parent::boot();
+
+        /**
+         * Thêm 1 scope query toàn cục cho model
+         */
+        static::addGlobalScope(new CreateByMeScope());
 
         /** Khi dữ liệu được get từ db */
         static::retrieved(function (Category $category) {
@@ -66,5 +76,16 @@ class Category extends BaseModel
             // afterDelete()
         });
 
+    }
+
+    /**
+     * Thêm 1 scope query dạng địa phương
+     *
+     * @param Builder $query
+     * @param int $numberDay
+     */
+    public function scopeFromDays(Builder $query, int $numberDay = 30)
+    {
+        $query->where('created_at', '>', Carbon::now()->startOfDay()->subDays($numberDay));
     }
 }

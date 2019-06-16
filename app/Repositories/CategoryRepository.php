@@ -4,34 +4,8 @@ namespace App\Repositories;
 
 use App\Entities\Category;
 
-class CategoryRepository extends RepositoryAbstract
+class CategoryRepository
 {
-
-    /**
-     * CategoryRepository constructor.
-     * @param Category $category
-     */
-    public function __construct(Category $category)
-    {
-        $this->setModel($category);
-    }
-
-    /**
-     * Scope search with parameters
-     *
-     * @param array $params
-     * @return mixed
-     */
-    public function scopeSearch($params = [])
-    {
-        $query = $this->getModel();
-
-        if (array_key_exists('keyword', $params) && !empty($params['keyword'])) {
-            $query = $query->where('name', 'LIKE', '%' . $params['keyword'] . '%');
-        }
-
-        return $query;
-    }
 
     /**
      * Search data by parameters
@@ -41,7 +15,16 @@ class CategoryRepository extends RepositoryAbstract
      */
     public function search($params = [])
     {
-        return $this->scopeSearch($params)->latest()->paginate($this->model->getPerPage());
+
+        # sử dụng truy vấn với scope địa phương
+        $query = Category::fromDays(2);
+
+        # lọc theo từ khóa
+        if (array_key_exists('keyword', $params) && !empty($params['keyword'])) {
+            $query = $query->where('name', 'LIKE', '%' . $params['keyword'] . '%');
+        }
+
+        return $query->latest()->paginate();
     }
 
     /**
@@ -49,7 +32,7 @@ class CategoryRepository extends RepositoryAbstract
      */
     public function count()
     {
-        return $this->getModel()->count();
+        return Category::count();
     }
 
 }

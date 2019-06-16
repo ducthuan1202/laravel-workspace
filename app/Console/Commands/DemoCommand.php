@@ -11,7 +11,7 @@ class DemoCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'demoCmd';
+    protected $signature = 'init-project';
 
     /**
      * The console command description.

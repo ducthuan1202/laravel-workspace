@@ -11,6 +11,7 @@
         <tr>
             <th>#</th>
             <th>Tên</th>
+            <th>Ngày tạo</th>
             <th> &nbsp; </th>
         </tr>
         </thead>
@@ -24,6 +25,9 @@
 
                     <td>
                         <a href="{{ admin_route('categories.edit', $item->id) }}"> <b>{{ $item->name }}</b> </a>
+                    </td>
+                    <td>
+                        {{ $item->created_at }}
                     </td>
                     <td class="text-right">
                         <div class="btn-group btn-group-sm" role="group" aria-label="control group" style="margin-right: 7px">
