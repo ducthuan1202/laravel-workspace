@@ -11,21 +11,13 @@ namespace App\Repositories;
  */
 abstract class RepositoryAbstract
 {
-    /** @var mixed $model */
-    public $model;
+    protected $model;
 
-    /**
-     * @return mixed
-     */
     public function getModel()
     {
         return $this->model;
     }
 
-    /**
-     * @param $model
-     * @return mixed
-     */
     public function setModel($model)
     {
         $this->model = $model;

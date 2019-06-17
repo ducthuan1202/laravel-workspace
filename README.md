@@ -1,6 +1,8 @@
 # Workspace
 
 ## Cơ bản
+- Các event trong `Observer` sẽ thực hiện các hành động trước và sau khi `created`, `update`, `delete`
+- Các scope global sẽ tự động được gán vào query thuộc model.
 
 ### Policy
 Policy là nơi để định nghĩa quyền cho 1 model nhất định theo các hành động cơ bản:  `viewAny, view, create, update, delete, restore, forceDelete`

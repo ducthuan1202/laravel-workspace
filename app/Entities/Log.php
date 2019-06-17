@@ -2,6 +2,8 @@
 
 namespace App\Entities;
 
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * Class Log
  * @package App\Entities
@@ -36,15 +38,34 @@ class Log extends BaseModel
     {
         parent::boot();
 
-        /** beforeCreate */
+        /**
+         * thực hiện trước khi model->save();
+         * Có thể sự dụng Observer nếu như có nhiều sự kiện
+         */
         static::creating(function (Log $log) {
             $log->created_by = 1;
         });
 
     }
 
-    public function formatClassLog(){
-        switch($this->action){
+    /**
+     * Scope a query to only include popular users.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActionType(Builder $query, string $type = 'CREATE')
+    {
+        $query->where('action', strtoupper($type));
+    }
+
+    /**
+     * @return string
+     */
+    public function formatClassLog()
+    {
+        switch ($this->action) {
             case self::ACTION_CREATE:
                 return '#c4d8ad';
                 break;

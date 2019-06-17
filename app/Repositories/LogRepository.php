@@ -4,46 +4,16 @@ namespace App\Repositories;
 
 use App\Entities\Log;
 
-class LogRepository extends RepositoryAbstract
+class LogRepository
 {
 
     /**
-     * LogRepository constructor.
-     * @param Log $log
-     */
-    public function __construct(Log $log)
-    {
-        $this->setModel($log);
-    }
-
-    /**
-     * Scope search with parameters
-     *
-     * @param array $params
      * @return mixed
      */
-    public function scopeSearch($params = [])
+    public function search()
     {
-        $query = $this->getModel();
-
-        if (array_key_exists('action', $params) && !empty($params['action'])) {
-            $query = $query->where('action', $params['action']);
-        }
-
-        return $query;
-    }
-
-    /**
-     * Search data by parameters
-     *
-     * @param array $params
-     * @return mixed
-     */
-    public function search($params = [])
-    {
-        return $this->scopeSearch($params)
-            ->latest()
-            ->paginate($this->model->getPerPage());
+        // return Log::actionType()->latest()->paginate();
+        return Log::latest()->paginate();
     }
 
 }

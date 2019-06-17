@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thuannd
- * Date: 6/10/2019
- * Time: 10:47 AM
- */
-
 namespace App\Http\Controllers\Backend;
 
 

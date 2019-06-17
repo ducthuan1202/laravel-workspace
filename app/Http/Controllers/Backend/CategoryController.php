@@ -39,7 +39,7 @@ class CategoryController extends BackendController
         return view($this->getView('index'), [
             'title' => sprintf('Danh sách [%s]', $this->title),
             'params' => $request->all(),
-            'model' => $this->repository->getModel(),
+            'model' => new Category(),
             'data' => $this->repository->search($request->all()),
         ]);
     }
@@ -54,7 +54,7 @@ class CategoryController extends BackendController
 
         return view($this->getView('form'), [
             'title' => sprintf('Tạo mới [%s].', $this->title),
-            'model' => $this->repository->getModel(),
+            'model' => new Category(),
         ]);
     }
 
@@ -66,9 +66,11 @@ class CategoryController extends BackendController
     public function store(CategoryRequest $request)
     {
         $this->authorize('store', Category::class);
+
         try {
 
-            $this->repository->getModel()->fill($request->all())->save();
+            $model = new Category();
+            $model->fill($request->all())->save();
 
             return redirect()->route($this->getRoute('index'))->with('success', sprintf('Tạo mới: [%s] thành công.', $this->title));
 
@@ -122,7 +124,7 @@ class CategoryController extends BackendController
 
         try {
 
-            $this->repository->setModel($category)->fill($request->all())->save();
+            $category->fill($request->all())->save();
 
             return back()->with('success', sprintf('Cập nhật: [%s] thành công.', $this->title));
 
@@ -136,7 +138,7 @@ class CategoryController extends BackendController
     /**
      * @param Category $category
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Category $category)
     {
@@ -150,7 +152,7 @@ class CategoryController extends BackendController
 
         } catch (\Exception $exception) {
 
-            return back()->withErrors([sprintf('Lỗi khi xóa', $exception->getMessage())]);
+            return back()->withErrors(['Lỗi khi xóa', $exception->getMessage()]);
 
         }
     }
