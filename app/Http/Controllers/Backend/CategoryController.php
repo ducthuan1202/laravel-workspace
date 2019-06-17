@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Entities\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Class CategoryController
@@ -155,5 +158,14 @@ class CategoryController extends BackendController
             return back()->withErrors(['Lỗi khi xóa', $exception->getMessage()]);
 
         }
+    }
+
+    /**
+     * @param Category $category
+     * @return CategoryResource
+     */
+    public function resource(Category $category)
+    {
+        return new CategoryResource($category);
     }
 }

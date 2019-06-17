@@ -18,7 +18,8 @@ class CreateLogsTable extends Migration
             $table->integer('created_by');
             $table->string('name');
             $table->text('content')->nullable();
-            $table->string('action')->default('create'); // Create, Update, Delete
+            $table->text('old_data')->nullable();
+            $table->boolean('action')->default(1); // 1: Create, 2: Update, 3: Delete
             $table->timestamps();
         });
     }
@@ -33,3 +34,4 @@ class CreateLogsTable extends Migration
         Schema::dropIfExists('logs');
     }
 }
+

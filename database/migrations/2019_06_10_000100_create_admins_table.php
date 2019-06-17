@@ -19,7 +19,7 @@ class CreateAdminsTable extends Migration
             $table->string('email');
             $table->string('image')->nullable();
             $table->boolean('role')->default(2); // 1: admin, 2: member
-            $table->boolean('status')->default(2); // 1: activate, 2: deactivate
+            $table->boolean('is_activate')->default(0); // 0: no, 1: yes
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

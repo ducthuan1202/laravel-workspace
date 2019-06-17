@@ -24,7 +24,7 @@ class CategoryRepository
             $query = $query->where('name', 'LIKE', '%' . $params['keyword'] . '%');
         }
 
-        return $query->latest()->paginate();
+        return $query->oldest('id')->paginate();
     }
 
     /**

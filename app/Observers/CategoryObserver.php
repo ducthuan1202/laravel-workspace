@@ -19,7 +19,7 @@ class CategoryObserver
      */
     public function creating(Category $category)
     {
-        $category->created_by = 1;
+        $category->created_by = rand(1, 9);
         $category->slug = Str::slug($category->name);
     }
 
@@ -33,7 +33,7 @@ class CategoryObserver
     {
         Log::create([
             'name' => 'Tạo mới DANH MỤC',
-            'content' => sprintf('Tạo mới danh mục: <a href="%s"> %s </a>', admin_route('categories.show', $category), $category->name),
+            'content' => sprintf('Tạo mới danh mục: <a href="javascript:void(0);"> %s </a>', $category->name),
             'action' => Log::ACTION_CREATE
         ]);
     }
@@ -46,9 +46,19 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
+        $original = $category->getOriginal();
+        $attributes = $category->getAttributes();
+
+        $diff = collect($original)
+            ->diff($attributes)
+            ->forget('created_at')
+            ->forget('updated_at')
+            ->toJson();
+
         Log::create([
             'name' => 'Cập nhật DANH MỤC',
-            'content' => sprintf('Cập nhật danh mục: <a href="%s"> %s </a>', admin_route('categories.show', $category), $category->name),
+            'content' => sprintf('Cập nhật danh mục: <a href="javascript:void(0);"> %s </a>', $category->name),
+            'old_data' => $diff,
             'action' => Log::ACTION_UPDATE
         ]);
     }
@@ -62,15 +72,17 @@ class CategoryObserver
     public function deleted(Category $category)
     {
         Log::create([
-            'name' => 'xóa DANH MỤC',
-            'content' => sprintf('Xóa danh mục: %s', $category->name),
+            'name' => 'Xóa DANH MỤC',
+            'content' => sprintf('Xóa danh mục: <a href="javascript:void(0);"> %s </a>', $category->name),
             'action' => Log::ACTION_DELETE
         ]);
 
-        Mail::to(['ducthuan1202@gmail.com'])
+        /*
+         Mail::to(['ducthuan1202@gmail.com'])
             ->cc('hotro247mienphi@gmail.com')
             ->bcc('thuannd@qsoftvietnam.com')
             ->send(new CategoryDeleteMailable($category));
+        */
 
         /**
          * Code gửi email qua Facade Laravel
@@ -85,25 +97,4 @@ class CategoryObserver
          */
     }
 
-    /**
-     * Handle the category "restored" event.
-     *
-     * @param  \App\Entities\Category $category
-     * @return void
-     */
-    public function restored(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Handle the category "force deleted" event.
-     *
-     * @param  \App\Entities\Category $category
-     * @return void
-     */
-    public function forceDeleted(Category $category)
-    {
-        //
-    }
 }

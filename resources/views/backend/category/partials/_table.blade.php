@@ -12,6 +12,7 @@
             <th>#</th>
             <th>Tên</th>
             <th>Ngày tạo</th>
+            <th>Trạng thái</th>
             <th> &nbsp; </th>
         </tr>
         </thead>
@@ -29,20 +30,29 @@
                     <td>
                         {{ $item->created_at }}
                     </td>
+                    <td>
+                        {{ $item->updated_at ? 'đã sửa' : 'chưa sửa' }}
+                    </td>
                     <td class="text-right">
-                        <div class="btn-group btn-group-sm" role="group" aria-label="control group" style="margin-right: 7px">
+                        @can('isAuthor', $item)
+                            <div class="btn-group btn-group-sm" role="group" aria-label="control group" style="margin-right: 7px">
 
-                            <a href="{{ admin_route('categories.show', $item->id) }}" class="btn btn-info"> Xem </a>
+                                <a href="{{ admin_route('categories.show', $item->id) }}" class="btn btn-info"> Xem </a>
 
-                            <a href="{{ admin_route('categories.edit', $item->id) }}" class="btn btn-primary"> Sửa </a>
+                                <a href="{{ admin_route('categories.edit', $item->id) }}" class="btn btn-primary"> Sửa </a>
 
-                            <a href="javascript:void(0);" class="btn btn-danger" onclick="BackendApp.confirmFormDelete('{{'destroyForm_'.$item->id}}', true);"> Xóa </a>
-                        </div>
+                                <a href="javascript:void(0);" class="btn btn-danger" onclick="BackendApp.confirmFormDelete('{{'df_'.$item->id}}', true);"> Xóa </a>
 
-                        {{ Form::open([ 'url' => admin_route('categories.destroy', $item->id), 'method' => 'POST', 'style'=>'display:none', 'class'=>'d-none', 'id'=> 'destroyForm_'.$item->id])}}
-                        @method('DELETE')
-                        {{ Form::close() }}
+                            </div>
 
+                            {{ Form::open([ 'url' => admin_route('categories.destroy', $item->id), 'method' => 'POST', 'style'=>'display:none', 'id'=> 'df_'.$item->id]) }}
+                                @method('DELETE')
+                            {{ Form::close() }}
+                        @endcan
+
+                        @cannot('isAuthor', $item)
+                            <span class="btn btn-secondary btn-sm" style="margin-right: 7px; width: 125px"> No permission </span>
+                        @endcannot
                     </td>
                 </tr>
 

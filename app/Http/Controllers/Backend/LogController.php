@@ -33,6 +33,7 @@ class LogController extends BackendController
      */
     public function index(Request $request)
     {
+
         return view($this->getView('index'), [
             'title' => sprintf('Danh sách [%s]', $this->title),
             'params' => $request->all(),

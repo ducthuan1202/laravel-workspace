@@ -8,9 +8,14 @@ Route::namespace('Backend')->group(function () {
         Route::post('logout', 'LoginController@logout')->name('logout')->middleware('auth:admin');
     });
 
+    # route không cần xác minh (login)
+    Route::get('/categories/resource/{category}', 'CategoryController@resource')->name('home.resource');
+
+    # route cần xác minh (login)
     Route::middleware('auth:admin')->group(function () {
 
         Route::get('/', 'HomeController@index')->name('home.index');
+        Route::get('/eloquent', 'HomeController@eloquent')->name('home.eloquent');
 
         Route::resources([
             'logs' => 'LogController',

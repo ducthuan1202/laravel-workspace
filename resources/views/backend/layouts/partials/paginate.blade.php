@@ -2,6 +2,7 @@
 /**
  * @var \Illuminate\Pagination\LengthAwarePaginator $data
  */
+//dd($data);
 ?>
 
 <div class="text-center text-secondary">
@@ -11,7 +12,7 @@
 @if($data->hasPages())
     <div role="pagination" class="text-center">
         @php($params = (isset($params) && is_array($params)) ? $params : [])
-        {{ $data->appends($params)->links() }}
+        {{ $data->appends($params)->onEachSide(2)->links() }}
     </div>
 
 @endif

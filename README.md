@@ -1,5 +1,7 @@
 # Workspace
 
+- [faker](https://github.com/fzaninotto/Faker)
+
 ## Cơ bản
 - Các event trong `Observer` sẽ thực hiện các hành động trước và sau khi `created`, `update`, `delete`
 - Các scope global sẽ tự động được gán vào query thuộc model.
@@ -30,3 +32,18 @@ Gate::define('isMember', function(Admin $admin){
 });
 ```
 ## Chi tiết
+- Thêm 1 items vào mảng
+```php
+    $data = [
+        2 => 'create',
+        1 => 'update',
+    ];
+
+    // cách 1
+    $data = collect(['0'=> 'chon'] + $data);
+
+    // cách 2: cần truyền key (0) vào hàm `prepend()` để key trong array không bị thay đổi.
+    $data = collect($data)->prepend('chọn hành động', 0);
+```
+
+

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string name
  * @property string content
  * @property string action
+ * @property string old_data
  *
  * @property string created_at
  * @property string updated_at
@@ -21,15 +22,19 @@ use Illuminate\Database\Eloquent\Builder;
 class Log extends BaseModel
 {
     const
-        ACTION_CREATE = 'CREATE',
-        ACTION_UPDATE = 'UPDATE',
-        ACTION_DELETE = 'DELETE';
+        ACTION_CREATE = 1,
+        ACTION_UPDATE = 2,
+        ACTION_DELETE = 3;
 
     /** @var string $table */
     protected $table = 'logs';
 
     /** @var array $fillable */
-    protected $fillable = ['created_by', 'name', 'content', 'action'];
+    protected $fillable = ['created_by', 'name', 'content', 'action', 'old_data'];
+
+    public $casts = [
+        'old_data' => 'json'
+    ];
 
     /**
      * Thực hiện các hành động theo event của eloquent model
@@ -38,14 +43,41 @@ class Log extends BaseModel
     {
         parent::boot();
 
-        /**
-         * thực hiện trước khi model->save();
-         * Có thể sự dụng Observer nếu như có nhiều sự kiện
-         */
+        /** Khi dữ liệu được get từ db */
+        static::retrieved(function (Log $log) {
+            // gọi khi model được get từ database ra
+        });
+
+        /** Tạo mới (chưa lưu) */
         static::creating(function (Log $log) {
             $log->created_by = 1;
         });
 
+        /** Khi tạo mới thành công (đã lưu) */
+        static::created(function (Log $log) {
+            // afterCreate()
+            // $model->slug = Str::slug($category->name);
+        });
+
+        /** Update dữ liệu (chưa lưu) */
+        static::updating(function (Log $log) {
+            // beforeUpdate()
+        });
+
+        /** Update dữ liệu thành công (đã lưu) */
+        static::updated(function (Log $log) {
+            // afterUpdate()
+        });
+
+        /** Thực hiện trước khi xóa */
+        static::deleting(function (Log $log) {
+            // beforeDelete()
+        });
+
+        /** Thực hiện khi xóa thành công */
+        static::deleted(function (Log $log) {
+            // afterDelete()
+        });
     }
 
     /**
@@ -55,11 +87,21 @@ class Log extends BaseModel
      * @param string $type
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeActionType(Builder $query, string $type = 'CREATE')
+    public function scopeActionType(Builder $query, string $type = self::ACTION_CREATE)
     {
         $query->where('action', strtoupper($type));
     }
 
+    /**
+     * @return array
+     */
+    public function listAction(){
+        return [
+            self::ACTION_CREATE => 'CREATE',
+            self::ACTION_UPDATE => 'UPDATE',
+            self::ACTION_DELETE => 'DELETE',
+        ];
+    }
     /**
      * @return string
      */
@@ -79,5 +121,18 @@ class Log extends BaseModel
                 return '#fff';
                 break;
         }
+    }
+
+    /**
+     *
+     */
+    public function formatAction(){
+        $listActions = collect($this->listAction());
+
+        if($listActions->has($this->action)){
+            return $listActions[$this->action];
+        }
+
+        return '';
     }
 }

@@ -24,14 +24,14 @@
 
 
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">
+            <li class="nav-item ">
+                <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="#">
                     <span data-feather="home"></span>
                     Dashboard <span class="sr-only">(current)</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ admin_route('categories.index') }}">
+                <a class="nav-link {{ (request()->is('admin/categories') || request()->is('admin/categories/*')) ? 'active' : '' }}" href="{{ admin_route('categories.index') }}">
                     <span data-feather="file"></span>
                     Danh Mục
                 </a>

@@ -24,7 +24,7 @@
                 <tr style="background-color: {{ $item->formatClassLog() }}">
                     <td>{{ $index + $data->firstItem() }}</td>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->action }}</td>
+                    <td>{{ $item->formatAction() }}</td>
                     <td>{!! $item->content !!}</td>
                     <td>{{ $item->created_at }}</td>
                 </tr>

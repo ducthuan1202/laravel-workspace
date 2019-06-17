@@ -17,7 +17,7 @@ class AdminsTableSeeder extends Seeder
                 'name' => 'Administrator',
                 'email' => 'admin@website.vn',
                 'role' => Admin::ROLE_ADMIN,
-                'status' => Admin::STATUS_ACTIVATE,
+                'is_activate' => Admin::YES,
                 'password' => bcrypt('admin@123'),
                 'created_at' => now()
             ],
@@ -25,7 +25,7 @@ class AdminsTableSeeder extends Seeder
                 'name' => 'Đức Thuận',
                 'email' => 'ducthuan@website.vn',
                 'role' => Admin::ROLE_MEMBER,
-                'status' => Admin::STATUS_ACTIVATE,
+                'is_activate' => Admin::NO,
                 'password' => bcrypt('member@123'),
                 'created_at' => now()
             ],

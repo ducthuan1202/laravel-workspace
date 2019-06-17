@@ -21,6 +21,7 @@
             </h6>
         </div>
         <div class="card-body-custom">
+
             @include('backend.layouts.partials.alert')
 
             @include('backend.category.partials._table')

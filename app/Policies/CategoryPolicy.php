@@ -10,6 +10,17 @@ class CategoryPolicy
 {
     use HandlesAuthorization;
 
+
+    /**
+     * @param Admin $admin
+     * @param Category $category
+     * @return bool
+     */
+    public function isAuthor(Admin $admin, Category $category)
+    {
+        return (int)$admin->id === (int)$category->created_by;
+    }
+
     /**
      * @param Admin $admin
      * @param Category $category

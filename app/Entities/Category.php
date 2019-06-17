@@ -15,18 +15,29 @@ use Illuminate\Database\Eloquent\Builder;
  * @property integer created_by
  * @property string name
  * @property string slug
+ * @property string image
+ * @property integer is_activate
  *
  * @property string created_at
  * @property string updated_at
  */
 class Category extends BaseModel
 {
+
+    const
+        STATUS_PENDING = 1,
+        STATUS_APPROVED = 2,
+        STATUS_CANCEL = 3;
+
+    public $casts = [
+        'is_activate' => 'boolean'
+    ];
+
     /** @var string $table */
     protected $table = 'categories';
 
     /** @var array $fillable */
-    protected $fillable = ['created_by', 'name', 'slug', 'image'];
-
+    protected $fillable = ['created_by', 'name', 'slug', 'image', 'is_activate'];
 
     /**
      * Thực hiện các hành động theo event của eloquent model
@@ -35,47 +46,8 @@ class Category extends BaseModel
     {
         parent::boot();
 
-        /**
-         * Thêm 1 scope query toàn cục cho model
-         */
+        /** Thêm 1 scope query toàn cục cho model */
         static::addGlobalScope(new CreateByMeScope());
-
-        /** Khi dữ liệu được get từ db */
-        static::retrieved(function (Category $category) {
-            // gọi khi model được get từ database ra
-        });
-
-        /** Tạo mới (chưa lưu) */
-        static::creating(function (Category $category) {
-            // beforeCreate()
-        });
-
-        /** Khi tạo mới thành công (đã lưu) */
-        static::created(function (Category $category) {
-            // afterCreate()
-            // $model->slug = Str::slug($category->name);
-        });
-
-        /** Update dữ liệu (chưa lưu) */
-        static::updating(function (Category $category) {
-            // beforeUpdate()
-        });
-
-        /** Update dữ liệu thành công (đã lưu) */
-        static::updated(function (Category $category) {
-            // afterUpdate()
-        });
-
-        /** Thực hiện trước khi xóa */
-        static::deleting(function (Category $category) {
-            // beforeDelete()
-        });
-
-        /** Thực hiện khi xóa thành công */
-        static::deleted(function (Category $category) {
-            // afterDelete()
-        });
-
     }
 
     /**
