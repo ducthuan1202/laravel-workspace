@@ -23,8 +23,6 @@
         <div class="card-body-custom">
             @include('backend.layouts.partials.alert')
 
-            @include('backend.layouts.partials.paginate')
-
             @include('backend.category.partials._table')
 
             @include('backend.layouts.partials.paginate')

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Factory;
+use Illuminate\Support\Str;
 
 class CategoriesTableSeeder extends Seeder
 {
@@ -11,21 +13,18 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert([
-            [
+        $faker = Factory::create();
+        $data = [];
+        for ($i = 0; $i < 1000; $i++):
+            $name = $faker->sentence();
+            $data[] = [
                 'created_by' => 1,
-                'name' => 'Laravel',
-                'slug' => 'laravel',
-                'image' => null,
+                'name' => $name,
+                'slug' => Str::slug($name),
+                'image' => $faker->imageUrl(),
                 'created_at' => now()
-            ],
-            [
-                'created_by' => 1,
-                'name' => 'Node JS',
-                'slug' => 'node-js',
-                'image' => null,
-                'created_at' => now()
-            ],
-        ]);
+            ];
+        endfor;
+        DB::table('categories')->insert($data);
     }
 }
