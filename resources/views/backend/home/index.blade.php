@@ -3,9 +3,29 @@
 @section('title') {{ $title }} @endsection
 
 @section('content')
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
-        <h2>Section title</h2>
+<div class="card">
+    <div class="card-header">
+        <h6>
+            {{ $title }}
+        </h6>
+    </div>
+    <div class="card-body-custom">
+
+        <button class="btn btn-dark show-toast">Show Toast </button>
+
+        <div class="toast fade hide">
+            <div class="toast-header">
+                <strong class="mr-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-striped table-sm">
@@ -135,8 +155,17 @@
             </table>
         </div>
 
-    </main>
+    </div>
+</div>
+
 @endsection
 
-
-
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.show-toast').on('click', function(){
+                $('.toast').toast('show');
+            })
+        });
+    </script>
+@endpush

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class BaseModel extends Model
 {
 
-    protected $perPage = 10;
+    protected $perPage = 100;
 
 }

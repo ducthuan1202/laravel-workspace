@@ -109,13 +109,13 @@ class Log extends BaseModel
     {
         switch ($this->action) {
             case self::ACTION_CREATE:
-                return '#c4d8ad';
+                return '#eef9e1';
                 break;
             case self::ACTION_UPDATE:
-                return '#afccd0';
+                return '#e7fcff';
                 break;
             case self::ACTION_DELETE:
-                return '#e8cda4';
+                return '#fff4e3';
                 break;
             default:
                 return '#fff';

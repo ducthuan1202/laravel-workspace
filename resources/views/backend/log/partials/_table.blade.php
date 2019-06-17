@@ -5,15 +5,13 @@
  */
 ?>
 <div class="table-responsive">
-    <table class="table">
+    <table class="table mb-0">
         <thead>
         <tr>
-            <th>#</th>
             <th>Tên</th>
             <th>Hành động</th>
             <th>Chi tiết</th>
             <th>Thời gian</th>
-            <th> &nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -22,7 +20,6 @@
 
             @foreach($data as $index => $item)
                 <tr style="background-color: {{ $item->formatClassLog() }}">
-                    <td>{{ $index + $data->firstItem() }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->formatAction() }}</td>
                     <td>{!! $item->content !!}</td>

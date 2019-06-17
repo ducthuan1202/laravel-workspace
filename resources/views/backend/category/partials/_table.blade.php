@@ -51,7 +51,7 @@
                         @endcan
 
                         @cannot('isAuthor', $item)
-                            <span class="btn btn-secondary btn-sm" style="margin-right: 7px; width: 125px"> No permission </span>
+                            <span class="btn btn-secondary btn-sm disabled" style="margin-right: 7px; width: 125px"> No permission </span>
                         @endcannot
                     </td>
                 </tr>

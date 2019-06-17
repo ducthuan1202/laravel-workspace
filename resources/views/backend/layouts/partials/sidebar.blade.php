@@ -25,21 +25,18 @@
 
         <ul class="nav flex-column">
             <li class="nav-item ">
-                <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="#">
-                    <span data-feather="home"></span>
-                    Dashboard <span class="sr-only">(current)</span>
+                <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="{{ admin_route('home.index') }}">
+                    <span data-feather="home"></span> Dashboard
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ (request()->is('admin/categories') || request()->is('admin/categories/*')) ? 'active' : '' }}" href="{{ admin_route('categories.index') }}">
-                    <span data-feather="file"></span>
-                    Danh Mục
+                <a class="nav-link {{ admin_request_is('categories') || admin_request_is('categories/*') ? 'active' : '' }}" href="{{ admin_route('categories.index') }}">
+                    <span data-feather="file"></span> Danh Mục
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ admin_route('logs.index') }}">
-                    <span data-feather="file"></span>
-                    Logs
+                <a class="nav-link {{ admin_request_is('logs') ? 'active' : '' }}" href="{{ admin_route('logs.index') }}">
+                    <span data-feather="file"></span> Logs
                 </a>
             </li>
         </ul>
