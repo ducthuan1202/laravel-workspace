@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Category;
+use Illuminate\Support\Arr;
 
 class CategoryRepository
 {
@@ -20,8 +21,8 @@ class CategoryRepository
         $query = Category::fromDays(2);
 
         # lọc theo từ khóa
-        if (array_key_exists('keyword', $params) && !empty($params['keyword'])) {
-            $query = $query->where('name', 'LIKE', '%' . $params['keyword'] . '%');
+        if(Arr::get($params, 'keyword')){
+            $query = $query->where('name', 'LIKE', '%' . Arr::get($params, 'keyword') . '%');
         }
 
         return $query->oldest('id')->paginate();

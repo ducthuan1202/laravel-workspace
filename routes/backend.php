@@ -21,6 +21,7 @@ Route::namespace('Backend')->group(function () {
             'logs' => 'LogController',
             'categories' => 'CategoryController',
         ]);
+
     });
 
 });

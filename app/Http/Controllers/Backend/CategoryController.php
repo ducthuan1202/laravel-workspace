@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Backend;
 
 
+use App\Admin;
 use App\Entities\Category;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
+use App\Jobs\PageOnLoadJob;
+use App\Notifications\NewCategoryNotify;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 /**
@@ -53,7 +57,7 @@ class CategoryController extends BackendController
      */
     public function create()
     {
-        $this->authorize('create', Category::class);
+        // $this->authorize('create', Category::class);
 
         return view($this->getView('form'), [
             'title' => sprintf('Tạo mới [%s].', $this->title),
@@ -68,12 +72,15 @@ class CategoryController extends BackendController
      */
     public function store(CategoryRequest $request)
     {
-        $this->authorize('store', Category::class);
+        // $this->authorize('store', Category::class);
 
         try {
 
             $model = new Category();
             $model->fill($request->all())->save();
+
+            $administrator = Admin::where('role', Admin::ROLE_ADMIN)->firstOrFail();
+            $administrator->notify(new NewCategoryNotify($model));
 
             return redirect()->route($this->getRoute('index'))->with('success', sprintf('Tạo mới: [%s] thành công.', $this->title));
 
@@ -166,6 +173,12 @@ class CategoryController extends BackendController
      */
     public function resource(Category $category)
     {
+        # chạy ngay
+        // PageOnLoadJob::dispatchNow();
+
+        # chạy sau 3h (cần phải gọi: php artisan queue:work)
+        PageOnLoadJob::dispatch()->delay(now()->addHours(3));
+
         return new CategoryResource($category);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Entities\Category;
 use App\Mail\CategoryDeleteMailable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends BackendController
@@ -26,7 +27,7 @@ class HomeController extends BackendController
     public function index()
     {
 
-        $this->authorize('isAdmin');
+//        $this->authorize('isAdmin');
 
         return view($this->getView('index'), [
             'title' => $this->title
@@ -38,6 +39,18 @@ class HomeController extends BackendController
      */
     public function eloquent()
     {
+
+       $params = [
+           'keyword' => 'ahihi',
+           'status' => [
+               'pending'=> 1
+           ]
+       ];
+
+       Arr::set($params, 'status.success', 2);
+       dd($params);
+       $keyword = Arr::get($params, 'status.success');
+        dd($keyword);
 
         $collection = collect([
             'color' => 'orange',

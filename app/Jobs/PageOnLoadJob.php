@@ -29,6 +29,6 @@ class PageOnLoadJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        file_put_contents(storage_path('logs/queue-jobs.txt'), 'queue jobs'.PHP_EOL, FILE_APPEND);
     }
 }
