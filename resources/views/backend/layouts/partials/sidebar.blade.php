@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var Admin $admin
+ */
+$admin = auth()->user();
+?>
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
 
@@ -9,7 +15,7 @@
             @else
                 <li class="nav-item dropdown bg-secondary">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ Auth::user()->name }} ({{ Auth::user()->unreadNotifications->count() }})
+                        {{ $admin->name }} ({{ $admin->unreadNotifications->count() }})
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
