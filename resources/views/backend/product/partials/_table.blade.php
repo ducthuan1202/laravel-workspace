@@ -1,17 +1,18 @@
 <?php
 /**
  * @var \Illuminate\Pagination\LengthAwarePaginator $data
- * @var \App\Entities\Category $model
- * @var \App\Entities\Category $item
+ * @var \App\Entities\Product $model
+ * @var \App\Entities\Product $item
  */
 ?>
 <div class="table-responsive">
-    <table class="table table-hover align-middle">
+    <table class="table table-hover align-middle" id="gridDataTable">
         <thead>
         <tr>
             <th>#</th>
             <th>Tên</th>
             <th>Ngày tạo</th>
+            <th>Nổi bật</th>
             <th>Trạng thái</th>
             <th> &nbsp; </th>
         </tr>
@@ -21,14 +22,18 @@
         @if($data->isNotEmpty())
 
             @foreach($data as $index => $item)
+
                 <tr>
                     <td>{{ $index + $data->firstItem() }}</td>
 
                     <td>
-                        <a href="{{ admin_route('categories.edit', $item->id) }}"> <b>{{ $item->name }}</b> </a>
+                        <a href="{{ admin_route('products.edit', $item->id) }}"> <b>{{ $item->name }}</b> </a>
                     </td>
                     <td>
                         {{ $item->created_at }}
+                    </td>
+                    <td>
+                        {{ $item->is_feature }}
                     </td>
                     <td>
                         {{ $item->updated_at ? 'đã sửa' : 'chưa sửa' }}
@@ -37,15 +42,15 @@
                         @can('isAuthor', $item)
                             <div class="btn-group btn-group-sm" role="group" aria-label="control group" style="margin-right: 7px">
 
-                                <a href="{{ admin_route('categories.show', $item->id) }}" class="btn btn-info"> Xem </a>
+                                <a href="{{ admin_route('products.show', $item->id) }}" class="btn btn-info"> Xem </a>
 
-                                <a href="{{ admin_route('categories.edit', $item->id) }}" class="btn btn-primary"> Sửa </a>
+                                <a href="{{ admin_route('products.edit', $item->id) }}" class="btn btn-primary"> Sửa </a>
 
                                 <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmFormDelete('{{'df_'.$item->id}}', true);"> Xóa </a>
 
                             </div>
 
-                            {{ Form::open([ 'url' => admin_route('categories.destroy', $item->id), 'method' => 'POST', 'style'=>'display:none', 'id'=> 'df_'.$item->id]) }}
+                            {{ Form::open([ 'url' => admin_route('products.destroy', $item->id), 'method' => 'POST', 'style'=>'display:none', 'id'=> 'df_'.$item->id]) }}
                                 @method('DELETE')
                             {{ Form::close() }}
                         @endcan

@@ -20,6 +20,7 @@ Route::namespace('Backend')->group(function () {
         Route::resources([
             'logs' => 'LogController',
             'categories' => 'CategoryController',
+            'products' => 'ProductController',
         ]);
 
     });

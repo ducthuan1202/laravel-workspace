@@ -60,4 +60,8 @@ class Category extends BaseModel
     {
         $query->where('created_at', '>', Carbon::now()->startOfDay()->subDays($numberDay));
     }
+
+    public function list(){
+        return self::all();
+    }
 }

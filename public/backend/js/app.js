@@ -1,12 +1,12 @@
-const BackendApp = {
-    confirmFormDelete: function(formId, sendEmail = false){
-        event.preventDefault();
-        const form = document.getElementById(formId);
-        if(sendEmail){
-            confirm('Xóa sẽ gửi email tới admin và dữ liệu không thể khôi phục, bạn có chắc vẫn tiếp tục?') && form && form.submit();
-        } else {
-            confirm('Xóa sẽ không thể khôi phục, bạn có chắc vẫn tiếp tục?') && form && form.submit();
-        }
+function confirmFormDelete(formId) {
+    event.preventDefault();
 
+    const form = document.getElementById(formId);
+    if (confirm('Xóa sẽ không thể khôi phục, bạn có chắc vẫn tiếp tục?') && formId) {
+        form.submit();
     }
-};
+}
+
+function themeInit() {
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+}

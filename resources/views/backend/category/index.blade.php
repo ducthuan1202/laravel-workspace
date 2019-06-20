@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \App\Entities\Teacher $model
- * @var \App\Entities\Teacher[] $data
+ * @var \App\Entities\Category $model
+ * @var \App\Entities\Category[] $data
  */
 ?>
 

@@ -37,11 +37,7 @@ $admin = auth()->user();
                     <span data-feather="home"></span> Dashboard
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {{ admin_request_is('categories') || admin_request_is('categories/*') ? 'active' : '' }}" href="{{ admin_route('categories.index') }}">
-                    <span data-feather="file"></span> Danh Mục
-                </a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link {{ admin_request_is('logs') ? 'active' : '' }}" href="{{ admin_route('logs.index') }}">
                     <span data-feather="file"></span> Logs
@@ -56,30 +52,18 @@ $admin = auth()->user();
             </a>
         </h6>
         <ul class="nav flex-column mb-2">
+
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Current month
+                <a class="nav-link {{ admin_request_is('categories') || admin_request_is('categories/*') ? 'active' : '' }}" href="{{ admin_route('categories.index') }}">
+                    <span data-feather="file"></span> Danh Mục
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Last quarter
+                <a class="nav-link {{ admin_request_is('products') || admin_request_is('products/*') ? 'active' : '' }}" href="{{ admin_route('products.index') }}">
+                    <span data-feather="file"></span> Sản phẩm
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Social engagement
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Year-end sale
-                </a>
-            </li>
+
         </ul>
     </div>
 </nav>

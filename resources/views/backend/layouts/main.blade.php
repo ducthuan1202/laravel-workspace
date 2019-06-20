@@ -28,11 +28,10 @@
 </div>
 
 <script src="{{ admin_asset('js/jquery.min.js') }}"></script>
-<script src="{{ admin_asset('js/jquery-3.2.1.slim.min.js') }}"></script>
+{{--<script src="{{ admin_asset('js/jquery-3.2.1.slim.min.js') }}"></script>--}}
 <script src="{{ admin_asset('js/popper.min.js') }}"></script>
 <script src="{{ admin_asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ admin_asset('js/app.js') }}"></script>
-
 @stack('scripts')
 
 </body>
