@@ -29,6 +29,7 @@ class Product extends BaseModel
 {
 
     const STATUS_ACTIVATE = 1;
+    const STATUS_DEACTIVATE = 0;
 
     const IS_FEATURE = 1;
 
@@ -78,7 +79,7 @@ class Product extends BaseModel
      */
     public function scopeFromDays(Builder $query, int $numberDay = 30)
     {
-        $query->where('created_at', '>', Carbon::now()->startOfDay()->subDays($numberDay));
+        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay));
     }
 
 
@@ -91,11 +92,12 @@ class Product extends BaseModel
     | Lưu ý: chỉ viết các hàm truy vấn dữ liệu (SELECT) ở đây
     |
     */
+
     /**
      * @param $params
      * @return mixed
      */
-    public function search($params)
+    public function search($params = [])
     {
 
         $query = self::oldest('id')->fromDays(2);
@@ -105,7 +107,29 @@ class Product extends BaseModel
             $query = $query->where('name', 'LIKE', '%' . Arr::get($params, 'keyword') . '%');
         }
 
+        # lọc theo trạng thái
+        if (Arr::get($params, 'status')) {
+            $query = $query->where('status', Arr::get($params, 'status'));
+        }
+
         return $query->paginate();
+    }
+
+    /**
+     * @param bool $addAll
+     * @return array
+     */
+    public function listStatus($addAll = false)
+    {
+        $list = [
+            self::STATUS_DEACTIVATE => 'Tạm ngưng',
+            self::STATUS_ACTIVATE => 'Hoạt động',
+        ];
+
+        if ($addAll === true) {
+            return collect($list)->prepend('Chọn trạng thái', '');
+        }
+        return $list;
     }
 
     /*
@@ -119,23 +143,37 @@ class Product extends BaseModel
     */
 
     /**
-     * @param $value
-     * @return mixed
+     * @return mixed|string
      */
-    public function getCreatedAtAttribute($value)
+    public function formatStatus()
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y');
+        $list = $this->listStatus();
+
+        # vì đã cast status sang kiểu boolean, nên ở đây cần convert sang kiểu int
+        if (Arr::has($list, (int)$this->status)) {
+            return $list[$this->status];
+        }
+
+        return 'không xác định';
     }
 
     /**
-     * @param $value
      * @return string
      */
-    public function getIsFeatureAttribute($value)
+    public function formatFeature()
     {
-        if ($value) {
+        if ($this->is_feature) {
             return 'NỔI BẬT';
         }
-        return '';
+        return 'bình thường';
     }
+
+    /**
+     * @return mixed
+     */
+    public function formatCreatedAt()
+    {
+        return $this->created_at->format('d/m/Y');
+    }
+
 }

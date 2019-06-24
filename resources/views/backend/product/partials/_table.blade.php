@@ -27,16 +27,18 @@
                     <td>{{ $index + $data->firstItem() }}</td>
 
                     <td>
-                        <a href="{{ admin_route('products.edit', $item->id) }}"> <b>{{ $item->name }}</b> </a>
+                        <a href="{{ admin_route('products.edit', $item->id) }}">
+                            {{ $item->name }}
+                        </a>
                     </td>
                     <td>
-                        {{ $item->created_at }}
+                        {{ $item->formatCreatedAt() }}
                     </td>
                     <td>
-                        {{ $item->is_feature }}
+                        {{ $item->formatFeature() }}
                     </td>
                     <td>
-                        {{ $item->updated_at ? 'đã sửa' : 'chưa sửa' }}
+                        {{ $item->formatStatus() }}
                     </td>
                     <td class="text-right">
                         @can('isAuthor', $item)
