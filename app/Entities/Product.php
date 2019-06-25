@@ -24,6 +24,8 @@ use Illuminate\Support\Arr;
  *
  * @property string created_at
  * @property string updated_at
+ *
+ * @property Category category
  */
 class Product extends BaseModel
 {
@@ -48,11 +50,14 @@ class Product extends BaseModel
     |--------------------------------------------------------------------------
     | QUAN HỆ GIỮA CÁC MODEL
     |--------------------------------------------------------------------------
-    |
-    | Định nghĩa quan hệ giữa các model tại đây.
-    | Lưu ý: chỉ viết các hàm như: hasOne, hasMany, belongsTo
-    |
     */
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
 
     /**
      * Thực hiện các hành động theo event của eloquent model
@@ -65,12 +70,8 @@ class Product extends BaseModel
 
     /*
     |--------------------------------------------------------------------------
-    | QUAN HỆ GIỮA CÁC MODEL
+    | Scope truy vấn
     |--------------------------------------------------------------------------
-    |
-    | Định nghĩa quan hệ giữa các model tại đây.
-    | Lưu ý: chỉ viết các hàm như: hasOne, hasMany, belongsTo
-    |
     */
 
     /**
@@ -82,15 +83,17 @@ class Product extends BaseModel
         $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay));
     }
 
+    /**
+     * @param Builder $query
+     */
+    public function scopeRelation(Builder $query){
+        $query->with(['category']);
+    }
 
     /*
     |--------------------------------------------------------------------------
     | TRUY VẤN DỮ LIỆU
     |--------------------------------------------------------------------------
-    |
-    | Các hàm truy vấn dữ liệu sẽ thực hiện ở đây.
-    | Lưu ý: chỉ viết các hàm truy vấn dữ liệu (SELECT) ở đây
-    |
     */
 
     /**
@@ -100,16 +103,16 @@ class Product extends BaseModel
     public function search($params = [])
     {
 
-        $query = self::oldest('id')->fromDays(2);
+        $query = self::oldest('id')->relation();
 
         # lọc theo từ khóa
-        if (Arr::get($params, 'keyword')) {
-            $query = $query->where('name', 'LIKE', '%' . Arr::get($params, 'keyword') . '%');
+        if ($keyword = Arr::get($params, 'keyword')) {
+            $query = $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
         # lọc theo trạng thái
-        if (Arr::get($params, 'status')) {
-            $query = $query->where('status', Arr::get($params, 'status'));
+        if ($status = Arr::get($params, 'status')) {
+            $query = $query->where('status', $status);
         }
 
         return $query->paginate();

@@ -58,12 +58,12 @@ class ProductController extends BackendController
      */
     public function create(Request $request)
     {
-
         $model = Product::firstOrNew(['id' => $request->get('id')]);
         $categoryModel = new Category();
 
         return response()->json([
             'success' => true,
+            'model' => $model,
             'data' => view($this->getView('form'), [
                 'model' => $model,
                 'categories' => $categoryModel->list(),
@@ -79,6 +79,7 @@ class ProductController extends BackendController
      */
     public function store(ProductRequest $request)
     {
+
         try {
             /** @var Product $model */
             $model = Product::firstOrNew(['id' => $request->get('id')]);
@@ -93,7 +94,7 @@ class ProductController extends BackendController
             ]);
 
         } catch (\Exception $exception) {
-            return response()->json(['success' => true, 'data' => $exception->getMessage()]);
+            return response()->json(['success' => false, 'data' => $exception->getMessage()]);
         }
     }
 

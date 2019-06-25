@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @property string created_at
  * @property string updated_at
+ *
+ * @property Product[] products
  */
 class Category extends BaseModel
 {
@@ -38,6 +40,23 @@ class Category extends BaseModel
 
     /** @var array $fillable */
     protected $fillable = ['created_by', 'name', 'slug', 'image', 'is_activate'];
+
+    /*
+    |--------------------------------------------------------------------------
+    | QUAN HỆ GIỮA CÁC MODEL
+    |--------------------------------------------------------------------------
+    |
+    | Định nghĩa quan hệ giữa các model tại đây.
+    | Lưu ý: chỉ viết các hàm như: hasOne, hasMany, belongsTo
+    |
+    */
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products(){
+        return $this->hasMany(Category::class, 'category_id', 'id');
+    }
 
     /**
      * Thực hiện các hành động theo event của eloquent model

@@ -38,23 +38,21 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ admin_asset('js/tbl-product.js') }}"></script>
+    <script src="{{ admin_asset('js/jquery.mask.min.js') }}"></script>
+    <script src="{{ admin_asset('js/pages/tbl-product.js') }}"></script>
     <script>
-        var product = new Product();
-        product.loadFormUrl = '{{ admin_route('products.create') }}';
-        product.saveFormUrl = '{{ admin_route('products.store') }}';
+        const product = new Product();
 
+        /*
+        |--------------------------------------------------------------------------
+        | Document on ready jquery event
+        |--------------------------------------------------------------------------
+        */
         $(document).ready(function () {
-
-            $("[data-function='loadForm']").on('click', function () {
-                product.loadForm();
-            });
-
-            $("#exampleModal").on('click', "[data-function='saveForm']", function () {
-                var data = $("#exampleModal form").serializeArray();
-                product.saveForm(data);
-            });
-
+            product.loadFormUrl = '{{ admin_route('products.create') }}';
+            product.saveFormUrl = '{{ admin_route('products.store') }}';
+            product.divErrorId = 'ajaxErrors';
+            product.init();
         })
     </script>
 @endpush

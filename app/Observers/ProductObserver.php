@@ -2,18 +2,16 @@
 
 namespace App\Observers;
 
-use App\Entities\Category;
 use App\Entities\Log;
 use App\Entities\Product;
-use App\Mail\CategoryDeleteMailable;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class ProductObserver
 {
+    protected $name = 'SẢN PHẨM';
 
     /**
-     * Handle the category "creating" event.
+     * Handle the product "creating" event.
      *
      * @param  \App\Entities\Product $product
      * @return void
@@ -25,7 +23,7 @@ class ProductObserver
     }
 
     /**
-     * Handle the category "created" event.
+     * Handle the product "created" event.
      *
      * @param  \App\Entities\Product $product
      * @return void
@@ -33,14 +31,14 @@ class ProductObserver
     public function created(Product $product)
     {
         Log::create([
-            'name' => 'Tạo mới DANH MỤC',
-            'content' => sprintf('Tạo mới SẢN PHẨM: <a href="javascript:void(0);"> %s </a>', $product->name),
+            'name' => sprintf('Tạo mới %s', $this->name),
+            'content' => sprintf('Tạo mới %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
             'action' => Log::ACTION_CREATE
         ]);
     }
 
     /**
-     * Handle the category "updated" event.
+     * Handle the product "updated" event.
      *
      * @param  \App\Entities\Product $product
      * @return void
@@ -52,20 +50,19 @@ class ProductObserver
 
         $diff = collect($original)
             ->diff($attributes)
-            ->forget('created_at')
-            ->forget('updated_at')
+            ->forget(['created_at', 'updated_at'])
             ->toJson();
 
         Log::create([
             'name' => 'Cập nhật DANH MỤC',
-            'content' => sprintf('Cập nhật SẢN PHẨM: <a href="javascript:void(0);"> %s </a>', $product->name),
+            'content' => sprintf('Cập nhật %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
             'old_data' => $diff,
             'action' => Log::ACTION_UPDATE
         ]);
     }
 
     /**
-     * Handle the category "deleted" event.
+     * Handle the product "deleted" event.
      *
      * @param  \App\Entities\Product $product
      * @return void
@@ -74,7 +71,7 @@ class ProductObserver
     {
         Log::create([
             'name' => 'Xóa DANH MỤC',
-            'content' => sprintf('Xóa SẢN PHẨM: <a href="javascript:void(0);"> %s </a>', $product->name),
+            'content' => sprintf('Xóa %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
             'action' => Log::ACTION_DELETE
         ]);
 

@@ -27,7 +27,7 @@
                     <td>{{ $index + $data->firstItem() }}</td>
 
                     <td>
-                        <a href="{{ admin_route('products.edit', $item->id) }}">
+                        <a href="javascript:void(0)" data-function="loadForm" data-id="{{$item->id}}">
                             {{ $item->name }}
                         </a>
                     </td>
@@ -52,9 +52,6 @@
 
                             </div>
 
-                            {{ Form::open([ 'url' => admin_route('products.destroy', $item->id), 'method' => 'POST', 'style'=>'display:none', 'id'=> 'df_'.$item->id]) }}
-                                @method('DELETE')
-                            {{ Form::close() }}
                         @endcan
 
                         @cannot('isAuthor', $item)
