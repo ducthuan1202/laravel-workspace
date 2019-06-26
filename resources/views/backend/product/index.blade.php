@@ -37,8 +37,18 @@
 
 @endsection
 
+@push('style')
+    <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}" />
+    <style>
+        .select2-container--classic .select2-selection--single .select2-selection__arrow{ height: 38px!important;}
+        .select2-container--classic .select2-selection--single,
+        .select2-container--classic .select2-selection--single .select2-selection__rendered{height: 40px!important; line-height: 40px!important;}
+    </style>
+@endpush
+
 @push('scripts')
-    <script src="{{ admin_asset('js/jquery.mask.min.js') }}"></script>
+    <script src="{{ asset('vendor/mask/jquery.mask.min.js') }}"></script>
+    <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
     <script src="{{ admin_asset('js/pages/tbl-product.js') }}"></script>
     <script>
         const product = new Product();

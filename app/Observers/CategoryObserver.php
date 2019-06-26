@@ -18,7 +18,7 @@ class CategoryObserver
      */
     public function creating(Category $category)
     {
-        $category->created_by = rand(1, 9);
+        $category->created_by = auth()->id();
         $category->slug = Str::slug($category->name);
     }
 

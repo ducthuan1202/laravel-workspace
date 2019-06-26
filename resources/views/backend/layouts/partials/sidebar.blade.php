@@ -30,7 +30,6 @@ $admin = auth()->user();
             @endguest
         </ul>
 
-
         <ul class="nav flex-column">
             <li class="nav-item ">
                 <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="{{ admin_route('home.index') }}">

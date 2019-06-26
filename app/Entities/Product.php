@@ -2,7 +2,8 @@
 
 namespace App\Entities;
 
-use Carbon\Carbon;
+use App\Admin;
+use App\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
@@ -26,14 +27,24 @@ use Illuminate\Support\Arr;
  * @property string updated_at
  *
  * @property Category category
+ * @property Admin admin
  */
 class Product extends BaseModel
 {
 
-    const STATUS_ACTIVATE = 1;
-    const STATUS_DEACTIVATE = 0;
+    /**
+     * Trạng thái của kích hoạt và tạm ngưng của sản phẩm
+     */
+    const
+        STATUS_ACTIVATE = 1,
+        STATUS_DEACTIVATE = 0;
 
-    const IS_FEATURE = 1;
+    /**
+     * Giá trị đánh dấu cho dản phẩm
+     */
+    const
+        IS_FEATURE = 1,
+        IS_NOT_FEATURE = 0;
 
     public $casts = [
         'is_feature' => 'boolean',
@@ -55,39 +66,51 @@ class Product extends BaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'created_by', 'id');
+    }
+
+    /**
+     * Hàm đặc biệt, kế thừa từ parent class
      * Thực hiện các hành động theo event của eloquent model
      */
     public static function boot()
     {
         parent::boot();
 
+        /** Sử dụng 1 class làm đối số cho scope global */
+        static::addGlobalScope(new OwnerScope());
+
+        /** Thêm 1 scope global với Closures function */
+        static::addGlobalScope('withRelationship', function (Builder $builder) {
+            $builder->with(['admin', 'category']);
+        });
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Scope truy vấn
+    | SCOPE TRUY VẤN CỤC BỘ
     |--------------------------------------------------------------------------
     */
 
     /**
+     * Khi cột updated_at có giá trị và khác với cột created_at, có nghĩa là đã được updated
+     *
      * @param Builder $query
-     * @param int $numberDay
      */
-    public function scopeFromDays(Builder $query, int $numberDay = 30)
+    public function scopeHasUpdated(Builder $query)
     {
-        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay));
-    }
-
-    /**
-     * @param Builder $query
-     */
-    public function scopeRelation(Builder $query){
-        $query->with(['category']);
+        $query->whereNotNull('updated_at')
+            ->whereColumn('created_at', '<>','updated_at');
     }
 
     /*
@@ -103,19 +126,24 @@ class Product extends BaseModel
     public function search($params = [])
     {
 
-        $query = self::oldest('id')->relation();
+        $query = self::hasUpdated();
 
         # lọc theo từ khóa
-        if ($keyword = Arr::get($params, 'keyword')) {
-            $query = $query->where('name', 'LIKE', '%' . $keyword . '%');
+        if ($keyword = (string)Arr::get($params, 'keyword')) {
+            $query = $query->where('name', 'LIKE', "%{$keyword}%");
         }
 
         # lọc theo trạng thái
-        if ($status = Arr::get($params, 'status')) {
+        if ($status = (boolean)Arr::get($params, 'status')) {
             $query = $query->where('status', $status);
         }
 
-        return $query->paginate();
+        # lọc theo đánh dấu nổi bật
+        if ($feature = (boolean)Arr::get($params, 'feature')) {
+            $query = $query->where('is_feature', $feature);
+        }
+
+        return $query->oldest()->paginate();
     }
 
     /**
@@ -135,48 +163,54 @@ class Product extends BaseModel
         return $list;
     }
 
+    /**
+     * @param bool $addAll
+     * @return array|\Illuminate\Support\Collection
+     */
+    public function listFeature($addAll = false)
+    {
+        $list = [
+            self::IS_FEATURE => 'Nổi bật',
+            self::IS_NOT_FEATURE => 'Bình thường',
+        ];
+
+        if ($addAll === true) {
+            return collect($list)->prepend('Đánh dấu nổi bật', '');
+        }
+        return $list;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | ĐỊNH DẠNG DỮ LIỆU KHI TRUY XUẤT
     |--------------------------------------------------------------------------
-    |
-    | Định nghĩa quan hệ giữa các model tại đây.
-    | Lưu ý: chỉ viết các hàm như: hasOne, hasMany, belongsTo
-    |
     */
 
     /**
+     * @param string $default
      * @return mixed|string
      */
-    public function formatStatus()
+    public function formatStatus($default = 'không xác định')
     {
         $list = $this->listStatus();
 
-        # vì đã cast status sang kiểu boolean, nên ở đây cần convert sang kiểu int
         if (Arr::has($list, (int)$this->status)) {
             return $list[$this->status];
         }
 
-        return 'không xác định';
+        return $default;
     }
 
     /**
+     * @param string $default
      * @return string
      */
-    public function formatFeature()
+    public function formatFeature($default = 'bình thường')
     {
         if ($this->is_feature) {
             return 'NỔI BẬT';
         }
-        return 'bình thường';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function formatCreatedAt()
-    {
-        return $this->created_at->format('d/m/Y');
+        return $default;
     }
 
 }

@@ -2,7 +2,8 @@
 
 namespace App\Entities;
 
-use App\Scopes\CreateByMeScope;
+use App\Admin;
+use App\Scopes\OwnerScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string updated_at
  *
  * @property Product[] products
+ * @property Admin admin
  */
 class Category extends BaseModel
 {
@@ -54,8 +56,17 @@ class Category extends BaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function products(){
+    public function products()
+    {
         return $this->hasMany(Category::class, 'category_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'created_by', 'id');
     }
 
     /**
@@ -66,7 +77,13 @@ class Category extends BaseModel
         parent::boot();
 
         /** Thêm 1 scope query toàn cục cho model */
-        static::addGlobalScope(new CreateByMeScope());
+        static::addGlobalScope(new OwnerScope());
+
+        /** Thêm 1 scope global với Closures function */
+        static::addGlobalScope('withRelationship', function (Builder $builder) {
+            $builder->with(['admin']);
+        });
+
     }
 
     /**
@@ -77,10 +94,46 @@ class Category extends BaseModel
      */
     public function scopeFromDays(Builder $query, int $numberDay = 30)
     {
-        $query->where('created_at', '>', Carbon::now()->startOfDay()->subDays($numberDay));
+        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay))
+        ->where('created_at', '<', now());
     }
 
-    public function list(){
+    /*
+    |--------------------------------------------------------------------------
+    | TRUY VẤN DỮ LIỆU
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function search($params = [])
+    {
+
+        $query = self::scopeFromDays(7);
+
+        # lọc theo từ khóa
+        if ($keyword = (string)Arr::get($params, 'keyword')) {
+            $query = $query->where('name', 'LIKE', "%{$keyword}%");
+        }
+
+        # lọc theo trạng thái
+        if ($status = (boolean)Arr::get($params, 'status')) {
+            $query = $query->where('status', $status);
+        }
+
+        return $query->oldest()->paginate();
+    }
+
+    /**
+     * @return Category[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function list()
+    {
         return self::all();
     }
+
+
 }

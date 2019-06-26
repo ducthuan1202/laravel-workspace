@@ -11,9 +11,6 @@ use App\Jobs\PageOnLoadJob;
 use App\Notifications\NewCategoryNotify;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Str;
 
 /**
  * Class CategoryController
@@ -34,6 +31,7 @@ class CategoryController extends BackendController
         $this->title = 'Danh mục';
         $this->viewFolder = 'category';
         $this->routePrefix = 'categories';
+
         $this->repository = $repository;
     }
 
@@ -57,8 +55,6 @@ class CategoryController extends BackendController
      */
     public function create()
     {
-        // $this->authorize('create', Category::class);
-
         return view($this->getView('form'), [
             'title' => sprintf('Tạo mới [%s].', $this->title),
             'model' => new Category(),
@@ -72,8 +68,6 @@ class CategoryController extends BackendController
      */
     public function store(CategoryRequest $request)
     {
-        // $this->authorize('store', Category::class);
-
         try {
 
             $model = new Category();

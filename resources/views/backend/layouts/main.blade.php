@@ -8,8 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" href="{{ asset('favicon.ico') }}"/>
-    <link href="{{ admin_asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ admin_asset('css/app.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ admin_asset('css/app.css') }}"/>
 
     @stack('style')
 </head>
@@ -27,10 +27,9 @@
     </div>
 </div>
 
-<script src="{{ admin_asset('js/jquery.min.js') }}"></script>
-{{--<script src="{{ admin_asset('js/jquery-3.2.1.slim.min.js') }}"></script>--}}
-<script src="{{ admin_asset('js/popper.min.js') }}"></script>
-<script src="{{ admin_asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/popper.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/bootstrap.min.js') }}"></script>
 <script src="{{ admin_asset('js/app.js') }}"></script>
 @stack('scripts')
 

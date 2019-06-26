@@ -37,7 +37,7 @@
 
             <div class="form-group" data-hint="price">
                 {{ Form::label('category_id', 'Giá bán') }}
-                {{ Form::select('category_id', $categories->pluck('name', 'id'), old('category_id') ? old('category_id') : $model->category_id, ['class' => 'form-control']) }}
+                {{ Form::select('category_id', $categories->pluck('name', 'id'), old('category_id') ? old('category_id') : $model->category_id, ['class' => 'form-control select2']) }}
             </div>
 
             <div class="custom-control custom-checkbox" data-hint="is_feature">

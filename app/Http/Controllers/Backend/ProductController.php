@@ -58,7 +58,12 @@ class ProductController extends BackendController
      */
     public function create(Request $request)
     {
+        /** @var Product $model */
         $model = Product::firstOrNew(['id' => $request->get('id')]);
+
+        /** tự động tăng view lên 1 đơn vị */
+        $model->increment('views');
+
         $categoryModel = new Category();
 
         return response()->json([

@@ -2,7 +2,9 @@
 
 namespace App\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 /**
  * Class Log
@@ -50,7 +52,7 @@ class Log extends BaseModel
 
         /** Tạo mới (chưa lưu) */
         static::creating(function (Log $log) {
-            $log->created_by = 1;
+            $log->created_by = auth()->id();
         });
 
         /** Khi tạo mới thành công (đã lưu) */
@@ -81,58 +83,109 @@ class Log extends BaseModel
     }
 
     /**
-     * Scope a query to only include popular users.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $type
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @param int $numberDay
      */
-    public function scopeActionType(Builder $query, string $type = self::ACTION_CREATE)
+    public function scopeFromDays(Builder $query, int $numberDay = 30)
     {
-        $query->where('action', strtoupper($type));
+        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | TRUY VẤN DỮ LIỆU
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function search($params = [])
+    {
+        /** @var Builder $query */
+        $query = self::fromDays(7);
+
+        # lọc theo trạng thái
+        if ($status = (string)Arr::get($params, 'action')) {
+            $query = $query->where('action', strtoupper($status));
+        }
+
+        # lọc theo ngày
+        if (Arr::get($params, 'date')) {
+            [$startDate, $endDate] = explode(' - ', Arr::get($params, 'date'));
+            $startDate = Carbon::createFromFormat('d-m-Y', $startDate)->startOfDay()->format('Y-m-d H:i:s');
+            $endDate = Carbon::createFromFormat('d-m-Y', $endDate)->endOfDay()->format('Y-m-d H:i:s');
+            $query = $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        return $query->latest()->paginate();
+
     }
 
     /**
-     * @return array
+     * @param bool $addAll
+     * @return array|\Illuminate\Support\Collection
      */
-    public function listAction(){
-        return [
+    public function listAction($addAll = false)
+    {
+
+        $list = [
             self::ACTION_CREATE => 'CREATE',
             self::ACTION_UPDATE => 'UPDATE',
             self::ACTION_DELETE => 'DELETE',
         ];
+
+        if ($addAll === true) {
+            return collect($list)->prepend('Chọn kiểu log', '');
+        }
+        return $list;
+
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ĐỊNH DẠNG DỮ LIỆU KHI TRUY XUẤT
+    |--------------------------------------------------------------------------
+    */
+
     /**
+     * @param string $color
      * @return string
      */
-    public function formatClassLog()
+    public function formatClassLog($color = '#fff')
     {
-        switch ($this->action) {
+        $action = (string)strtoupper($this->action);
+        switch ($action) {
             case self::ACTION_CREATE:
-                return '#eef9e1';
+                $color = '#eef9e1';
                 break;
             case self::ACTION_UPDATE:
-                return '#e7fcff';
+                $color = '#e7fcff';
                 break;
             case self::ACTION_DELETE:
-                return '#fff4e3';
+                $color = '#fff4e3';
                 break;
             default:
-                return '#fff';
                 break;
         }
+
+        return $color;
     }
 
     /**
-     *
+     * @param string $default
+     * @return mixed|string
      */
-    public function formatAction(){
+    public function formatAction($default = 'unknown')
+    {
         $listActions = collect($this->listAction());
 
-        if($listActions->has($this->action)){
+        if ($listActions->has($this->action)) {
             return $listActions[$this->action];
         }
 
-        return '';
+        return $default;
     }
 }

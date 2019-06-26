@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Entities\Log;
 use App\Repositories\LogRepository;
 use Illuminate\Http\Request;
 
@@ -34,10 +35,13 @@ class LogController extends BackendController
     public function index(Request $request)
     {
 
+        $model = new Log();
+
         return view($this->getView('index'), [
             'title' => sprintf('Danh sách [%s]', $this->title),
             'params' => $request->all(),
-            'data' => $this->repository->search($request->all()),
+            'model' => $model,
+            'data' => $model->search($request->all()),
         ]);
     }
 

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Entities\Category;
+use App\Entities\Product;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,6 +24,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * @property string created_at
  * @property string updated_at
+ *
+ * @property Category[] categories
+ * @property Product[] products
  */
 class Admin extends Authenticatable
 {
@@ -63,4 +68,17 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_activate' => 'boolean',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | QUAN HỆ GIỮA CÁC MODEL
+    |--------------------------------------------------------------------------
+    */
+    public function products(){
+        return $this->hasMany(Product::class, 'created_by', 'id');
+    }
+
+    public function categories(){
+        return $this->hasMany(Category::class, 'created_by', 'id');
+    }
 }

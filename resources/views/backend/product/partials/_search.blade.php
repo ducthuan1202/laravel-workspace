@@ -21,6 +21,10 @@ use Illuminate\Support\Arr;
             </div>
 
             <div class="col">
+                {{ Form::select('feature', $model->listFeature(true), Arr::get($params, 'feature'), ['class' => 'form-control']) }}
+            </div>
+
+            <div class="col">
                 {{ Form::submit('Tìm kiếm', ['class' => 'btn btn-primary']) }}
             </div>
 

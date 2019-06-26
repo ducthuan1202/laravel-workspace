@@ -8,6 +8,7 @@ class Product {
 
     init() {
         this.initInputMask();
+        this.initSelect2();
         this.addEvent();
     }
 
@@ -111,6 +112,15 @@ class Product {
 
     }
 
+    initSelect2(){
+        console.log('init select2', $('.select2'));
+        $('.select2').select2({
+            width: '100%',
+            height: '50px',
+            theme: "classic"
+        });
+    }
+
     /*
     * --------------------------------------------------------
     * LOAD FORM AND CALLBACK
@@ -119,6 +129,7 @@ class Product {
     loadFormSuccess(res) {
         $("#exampleModal").html(res.data).modal('show');
         this.initInputMask();
+        this.initSelect2()
     }
 
     /**

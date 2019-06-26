@@ -13,6 +13,7 @@
             <th>Tên</th>
             <th>Ngày tạo</th>
             <th>Trạng thái</th>
+            <th>Người tạo</th>
             <th> &nbsp; </th>
         </tr>
         </thead>
@@ -32,6 +33,9 @@
                     </td>
                     <td>
                         {{ $item->updated_at ? 'đã sửa' : 'chưa sửa' }}
+                    </td>
+                    <td>
+                        {{ $item->formatCreatedBy() }}
                     </td>
                     <td class="text-right">
                         @can('isAuthor', $item)
