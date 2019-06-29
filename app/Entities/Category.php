@@ -4,8 +4,8 @@ namespace App\Entities;
 
 use App\Admin;
 use App\Scopes\OwnerScope;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 /**
  * Class Category
@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Category extends BaseModel
 {
+    protected $perPage = 10;
 
     const
         STATUS_PENDING = 1,
@@ -94,8 +95,7 @@ class Category extends BaseModel
      */
     public function scopeFromDays(Builder $query, int $numberDay = 30)
     {
-        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay))
-        ->where('created_at', '<', now());
+        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay))->where('created_at', '<', now());
     }
 
     /*
@@ -105,23 +105,41 @@ class Category extends BaseModel
     |
     */
 
+    public function search($params = [])
+    {
+
+        # sử dụng truy vấn với scope địa phương
+        $query = $this;
+
+        # lọc theo từ khóa
+        if ($keyword = Arr::get($params, 'keyword')) {
+            $query = $query->where('name', 'LIKE', "%{$keyword}%");
+        }
+
+        return $query->oldest()->paginate();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function count()
+    {
+        return Category::count();
+    }
+
     /**
      * @param array $params
      * @return mixed
      */
-    public function search($params = [])
+    public function getData($params = [])
     {
 
-        $query = self::scopeFromDays(7);
+        # sử dụng truy vấn với scope địa phương
+        $query = $this;
 
         # lọc theo từ khóa
-        if ($keyword = (string)Arr::get($params, 'keyword')) {
+        if ($keyword = Arr::get($params, 'keyword')) {
             $query = $query->where('name', 'LIKE', "%{$keyword}%");
-        }
-
-        # lọc theo trạng thái
-        if ($status = (boolean)Arr::get($params, 'status')) {
-            $query = $query->where('status', $status);
         }
 
         return $query->oldest()->paginate();

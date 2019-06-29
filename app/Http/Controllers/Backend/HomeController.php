@@ -37,19 +37,43 @@ class HomeController extends BackendController
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+    public function socket()
+    {
+
+        return view($this->getView('socket'), [
+            'title' => 'socket io'
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function api()
+    {
+
+        return view($this->getView('api'), [
+            'title' => 'socket io'
+        ]);
+    }
+
+
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function eloquent()
     {
 
-       $params = [
-           'keyword' => 'ahihi',
-           'status' => [
-               'pending'=> 1
-           ]
-       ];
+        $params = [
+            'keyword' => 'ahihi',
+            'status' => [
+                'pending' => 1
+            ]
+        ];
 
-       Arr::set($params, 'status.success', 2);
-       dd($params);
-       $keyword = Arr::get($params, 'status.success');
+        Arr::set($params, 'status.success', 2);
+        dd($params);
+        $keyword = Arr::get($params, 'status.success');
         dd($keyword);
 
         $collection = collect([
@@ -69,7 +93,7 @@ class HomeController extends BackendController
         dd($d);
 
 
-        $data = collect(range(1,9));
+        $data = collect(range(1, 9));
 
         return view($this->getView('eloquent'), [
             'title' => $this->title,

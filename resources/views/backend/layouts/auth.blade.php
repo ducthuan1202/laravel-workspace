@@ -10,17 +10,18 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('backend/css/app.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ admin_asset('css/app.css') }}"/>
 </head>
 <body>
     <main class="py-4">
         @yield('content')
     </main>
 
-    <script src="{{ asset('backend/js/jquery-3.2.1.slim.min.js') }}"></script>
-    <script src="{{ asset('backend/js/popper.min.js') }}"></script>
-    <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('backend/js/app.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/jquery-3.2.1.slim.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/popper.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ admin_asset('js/app.js') }}"></script>
+
 </body>
 </html>

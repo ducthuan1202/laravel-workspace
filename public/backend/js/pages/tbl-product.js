@@ -1,6 +1,6 @@
 class Product {
 
-    __construct() {
+    constructor() {
         this.loadFormUrl = '';
         this.saveFormUrl = '';
         this.divErrorId = '';

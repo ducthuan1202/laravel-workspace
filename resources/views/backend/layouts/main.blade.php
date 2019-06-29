@@ -9,6 +9,7 @@
 
     <link rel="icon" href="{{ asset('favicon.ico') }}"/>
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ admin_asset('css/app.css') }}"/>
 
     @stack('style')
@@ -30,6 +31,8 @@
 <script src="{{ asset('vendor/bootstrap/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/popper.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendor/mask/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
 <script src="{{ admin_asset('js/app.js') }}"></script>
 @stack('scripts')
 

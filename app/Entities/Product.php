@@ -134,13 +134,15 @@ class Product extends BaseModel
         }
 
         # lọc theo trạng thái
-        if ($status = (boolean)Arr::get($params, 'status')) {
-            $query = $query->where('status', $status);
+        $status = Arr::get($params, 'status');
+        if (strlen($status)) {
+            $query = $query->where('status', (boolean)$status);
         }
 
         # lọc theo đánh dấu nổi bật
-        if ($feature = (boolean)Arr::get($params, 'feature')) {
-            $query = $query->where('is_feature', $feature);
+        $feature = Arr::get($params, 'feature');
+        if (strlen($feature)) {
+            $query = $query->where('is_feature', (boolean)$feature);
         }
 
         return $query->oldest()->paginate();

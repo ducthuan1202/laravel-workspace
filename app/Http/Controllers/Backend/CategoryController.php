@@ -7,7 +7,6 @@ use App\Admin;
 use App\Entities\Category;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
-use App\Jobs\PageOnLoadJob;
 use App\Notifications\NewCategoryNotify;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
@@ -20,19 +19,16 @@ use Illuminate\Http\Request;
  */
 class CategoryController extends BackendController
 {
-    protected $repository;
 
     /**
      * CategoryController constructor.
      * @param CategoryRepository $repository
      */
-    public function __construct(CategoryRepository $repository)
+    public function __construct()
     {
         $this->title = 'Danh mục';
         $this->viewFolder = 'category';
         $this->routePrefix = 'categories';
-
-        $this->repository = $repository;
     }
 
     /**
@@ -41,11 +37,12 @@ class CategoryController extends BackendController
      */
     public function index(Request $request)
     {
+        $model = new Category();
         return view($this->getView('index'), [
             'title' => sprintf('Danh sách [%s]', $this->title),
             'params' => $request->all(),
-            'model' => new Category(),
-            'data' => $this->repository->search($request->all()),
+            'model' => $model,
+            'data' => $model->search($request->all()),
         ]);
     }
 
@@ -69,19 +66,18 @@ class CategoryController extends BackendController
     public function store(CategoryRequest $request)
     {
         try {
-
             $model = new Category();
             $model->fill($request->all())->save();
 
             $administrator = Admin::where('role', Admin::ROLE_ADMIN)->firstOrFail();
             $administrator->notify(new NewCategoryNotify($model));
 
-            return redirect()->route($this->getRoute('index'))->with('success', sprintf('Tạo mới: [%s] thành công.', $this->title));
+            return redirect()->route($this->getRoute('index'))
+                ->with('success', sprintf('Tạo mới: [%s] thành công.', $this->title));
 
         } catch (\Exception $exception) {
-
-            return back()->withInput($request->all())->withErrors(['Lỗi khi tạo mới: ', $exception->getMessage()]);
-
+            return back()->withInput($request->all())
+                ->withErrors(['Lỗi khi tạo mới: ', $exception->getMessage()]);
         }
     }
 
@@ -107,7 +103,6 @@ class CategoryController extends BackendController
      */
     public function edit(Category $category)
     {
-
         $this->authorize('edit', $category);
 
         return view($this->getView('form'), [
@@ -127,15 +122,12 @@ class CategoryController extends BackendController
         $this->authorize('update', $category);
 
         try {
-
             $category->fill($request->all())->save();
-
             return back()->with('success', sprintf('Cập nhật: [%s] thành công.', $this->title));
 
         } catch (\Exception $exception) {
-
-            return back()->withInput($request->all())->withErrors(['cập nhật thất bại', $exception->getMessage()]);
-
+            return back()->withInput($request->all())
+                ->withErrors(['cập nhật thất bại', $exception->getMessage()]);
         }
     }
 
@@ -149,15 +141,10 @@ class CategoryController extends BackendController
         $this->authorize('delete', $category);
 
         try {
-
             $category->delete();
-
             return back()->with('success', sprintf('Xóa [%s] thành công.', $category->name));
-
         } catch (\Exception $exception) {
-
             return back()->withErrors(['Lỗi khi xóa', $exception->getMessage()]);
-
         }
     }
 
@@ -171,8 +158,41 @@ class CategoryController extends BackendController
         // PageOnLoadJob::dispatchNow();
 
         # chạy sau 3h (cần phải gọi: php artisan queue:work)
-        PageOnLoadJob::dispatch()->delay(now()->addHours(3));
+        // PageOnLoadJob::dispatch()->delay(now()->addHours(3));
 
         return new CategoryResource($category);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function list(Request $request){
+        $model = new Category();
+        return view($this->getView('list'), [
+            'title' => sprintf('Danh sách [%s]', $this->title),
+            'params' => $request->all(),
+            'model' => $model,
+            'data'=> $model->search($request->all())
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getData(Request $request){
+
+        $model = new Category();
+
+        return response()->json([
+            'success'=> true,
+            'code' => 200,
+            'data'=> view($this->getView('partials._table_ajax'), [
+                'params'=> $request->all(),
+                'data'=> $model->search($request->all()),
+            ])->render()
+        ]);
     }
 }

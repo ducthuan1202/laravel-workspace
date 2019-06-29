@@ -90,7 +90,8 @@ class ProductController extends BackendController
             $model = Product::firstOrNew(['id' => $request->get('id')]);
 
             $model->fill($request->all());
-            $model->is_feature = $request->get('is_feature') ? true : false;
+            $model->is_feature = $request->get('is_feature') ? Product::IS_FEATURE : Product::IS_NOT_FEATURE;
+            $model->status = $request->get('status') ? Product::STATUS_ACTIVATE : Product::STATUS_DEACTIVATE;
             $model->save();
 
             return response()->json([

@@ -6,7 +6,6 @@ class Log {
 
     initDateRangePicker() {
 
-
         const configs = {
             ranges: {
                 'Today': [moment(), moment()],
