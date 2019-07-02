@@ -5,8 +5,8 @@
  * @var \App\Entities\Product $item
  */
 ?>
-<div class="table-responsive">
-    <table class="table table-hover align-middle mb-0" id="grid-table-data">
+
+<table class="table table-hover align-middle mb-0">
         <thead>
         <tr>
             <th>#</th>
@@ -74,4 +74,5 @@
         @endif
         </tbody>
     </table>
-</div>
+
+@include('backend.layouts.partials.paginate')

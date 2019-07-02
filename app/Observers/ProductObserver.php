@@ -30,11 +30,11 @@ class ProductObserver
      */
     public function created(Product $product)
     {
-        Log::create([
-            'name' => sprintf('Tạo mới %s', $this->name),
-            'content' => sprintf('Tạo mới %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
-            'action' => Log::ACTION_CREATE
-        ]);
+//        Log::create([
+//            'name' => sprintf('Tạo mới %s', $this->name),
+//            'content' => sprintf('Tạo mới %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
+//            'action' => Log::ACTION_CREATE
+//        ]);
     }
 
     /**
@@ -53,12 +53,12 @@ class ProductObserver
             ->forget(['created_at', 'updated_at'])
             ->toJson();
 
-        Log::create([
-            'name' => 'Cập nhật DANH MỤC',
-            'content' => sprintf('Cập nhật %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
-            'old_data' => $diff,
-            'action' => Log::ACTION_UPDATE
-        ]);
+//        Log::create([
+//            'name' => 'Cập nhật DANH MỤC',
+//            'content' => sprintf('Cập nhật %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
+//            'old_data' => $diff,
+//            'action' => Log::ACTION_UPDATE
+//        ]);
     }
 
     /**
@@ -69,11 +69,11 @@ class ProductObserver
      */
     public function deleted(Product $product)
     {
-        Log::create([
-            'name' => 'Xóa DANH MỤC',
-            'content' => sprintf('Xóa %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
-            'action' => Log::ACTION_DELETE
-        ]);
+//        Log::create([
+//            'name' => 'Xóa DANH MỤC',
+//            'content' => sprintf('Xóa %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
+//            'action' => Log::ACTION_DELETE
+//        ]);
 
         /*Mail::send('auth.emails.change_email', ['category' => $product], function ($mail) {
             $mail->from('email_from@gmail.com', 'Tên Người Gửi')

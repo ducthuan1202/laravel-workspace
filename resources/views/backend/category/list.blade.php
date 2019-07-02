@@ -22,9 +22,7 @@
 
             @include('backend.layouts.partials.alert')
 
-            <div class="table-responsive" id="grid-table-data">
-                <div class="text-center"><img src="{{ admin_asset('img/loading.gif') }}" alt="loading"/></div>
-            </div>
+            <div class="table-responsive" id="grid-table-data" style="min-height: 200px;"></div>
 
         </div>
     </div>
@@ -42,9 +40,7 @@
         |--------------------------------------------------------------------------
         */
         $(document).ready(function () {
-            category.preload = '<div class="text-center"><img src="{{ admin_asset('img/loading.gif') }}" alt="loading"/></div>';
             category.urlGetData = '{{admin_route('categories.get_data')}}';
-
             category.getData();
         })
     </script>

@@ -1,10 +1,8 @@
 class Category {
 
     constructor() {
-        this.preload = '';
         this.urlGetData = '';
         this.init();
-        console.log('init')
     }
 
     init() {
@@ -21,25 +19,30 @@ class Category {
     }
 
     getData() {
-        const self = this;
 
         const request = $.ajax({
             url: this.urlGetData,
             method: "GET",
             dataType: "json",
             beforeSend: function(){
-                $("#grid-table-data").html(self.preload);
+                MyApp.blockUI({
+                    target: '#grid-table-data',
+                    message: 'Tải dữ liệu...',
+                    overlayColor: '#000'
+                });
             }
         });
 
         request.done(function (res) {
             if(res.success){
                 $("#grid-table-data").html(res.data);
+                MyApp.unblockUI('#grid-table-data');
             }
         });
 
         request.fail(function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
+            MyApp.unblockUI('#grid-table-data');
         });
     }
 

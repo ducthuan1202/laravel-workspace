@@ -57,6 +57,13 @@ $admin = auth()->user();
                     <span data-feather="file"></span> Danh Mục
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ admin_request_is('categories') || admin_request_is('categories/*') ? 'active' : '' }}" href="{{ admin_route('categories.list') }}">
+                    <span data-feather="file"></span> Danh Mục Ajax
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link {{ admin_request_is('products') || admin_request_is('products/*') ? 'active' : '' }}" href="{{ admin_route('products.index') }}">
                     <span data-feather="file"></span> Sản phẩm

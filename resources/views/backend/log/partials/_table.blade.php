@@ -8,8 +8,8 @@
     <table class="table mb-0">
         <thead>
         <tr>
-            <th>Tên</th>
             <th>Hành động</th>
+            <th>Tên</th>
             <th>Chi tiết</th>
             <th>Thời gian</th>
         </tr>
@@ -20,8 +20,8 @@
 
             @foreach($data as $index => $item)
                 <tr style="background-color: {{ $item->formatClassLog() }}">
-                    <td>{{ $item->name }}</td>
                     <td>{{ $item->formatAction() }}</td>
+                    <td>{{ $item->name }}</td>
                     <td>{!! $item->content !!}</td>
                     <td>{{ $item->created_at }}</td>
                 </tr>

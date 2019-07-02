@@ -2,17 +2,11 @@
 /**
  * @var \Illuminate\Pagination\LengthAwarePaginator $data
  */
-//dd($data);
+$params = (isset($params) && is_array($params)) ? $params : [];
 ?>
-
-<div class="text-center text-secondary">
-{{--    {{ sprintf('Hiển thị bản ghi từ %s tới %s trên tổng số %s',$data->firstItem(), $data->lastItem(), $data->lastotalItem()) }}--}}
-</div>
-
 @if($data->hasPages())
-    <div role="pagination" class="text-center">
-        @php($params = (isset($params) && is_array($params)) ? $params : [])
-        {{ $data->appends($params)->onEachSide(2)->links() }}
-    </div>
 
+    <hr class="mb-4">
+
+    <div role="pagination" class="text-center">{{ $data->appends($params)->onEachSide(1)->links() }}</div>
 @endif

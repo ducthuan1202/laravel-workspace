@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 
     <div class="card-body">
 
-        {{ Form::open(['url' => admin_route('products.index'), 'method' => 'GET', 'class'=>''])}}
+        {{ Form::open(['url' => admin_route('products.index'), 'method' => 'GET', 'name'=>'product-search-form'])}}
 
         <div class="form-row">
 
