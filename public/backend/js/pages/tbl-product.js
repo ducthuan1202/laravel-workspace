@@ -65,6 +65,10 @@ class Product {
     addEvent() {
         const self = this;
 
+        $("[data-function='loadForm']").on('click', function () {
+            self.loadForm();
+        });
+
         /**
          * event click button add new
          */
@@ -90,7 +94,6 @@ class Product {
             }
         });
 
-
         /**
          * add event click to link a paginate
          */
@@ -102,7 +105,6 @@ class Product {
 
             return false;
         });
-
 
         /**
          * product search form submit event
