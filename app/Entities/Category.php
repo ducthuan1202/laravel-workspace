@@ -10,20 +10,14 @@ use Illuminate\Support\Arr;
 /**
  * Class Category
  * @package App\Entities
- * --------------------------------------
- * @property integer id
+ * ----------------------------------------------------
  *
- * @property integer created_by
  * @property string name
  * @property string slug
  * @property string image
  * @property integer is_activate
  *
- * @property string created_at
- * @property string updated_at
- *
  * @property Product[] products
- * @property Admin admin
  */
 class Category extends BaseModel
 {
@@ -95,7 +89,8 @@ class Category extends BaseModel
      */
     public function scopeFromDays(Builder $query, int $numberDay = 30)
     {
-        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay))->where('created_at', '<', now());
+        $query->whereDate('created_at', '>', now()->startOfDay()->subDays($numberDay))
+            ->where('created_at', '<', now());
     }
 
     /*
