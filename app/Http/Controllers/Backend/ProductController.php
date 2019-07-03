@@ -62,7 +62,7 @@ class ProductController extends BackendController
         $model = Product::firstOrNew(['id' => $request->get('id')]);
 
         /** tự động tăng view lên 1 đơn vị */
-        $model->increment('views');
+        // $model->increment('views');
 
         $categoryModel = new Category();
 
@@ -96,14 +96,14 @@ class ProductController extends BackendController
 
             return response()->json([
                 'success' => true,
-                'data' => view($this->getView('partials._row'), ['model' => $model])->render(),
+                'datax' => view($this->getView('partials._row'), ['model' => $model])->render(),
+                'data' => 'lưu thành công',
             ]);
 
         } catch (\Exception $exception) {
             return response()->json(['success' => false, 'data' => $exception->getMessage()]);
         }
     }
-
 
     /**
      * @param Product $product
@@ -112,19 +112,38 @@ class ProductController extends BackendController
      */
     public function destroy(Product $product)
     {
-        $this->authorize('delete', $product);
+        $this->authorize('isAdmin', $product);
 
         try {
 
             $product->delete();
 
-            return back()->with('success', sprintf('Xóa [%s] thành công.', $product->name));
+            return response()->json(['success' => true, 'data' => 'Xóa thành công',]);
 
         } catch (\Exception $exception) {
 
-            return back()->withErrors(['Lỗi khi xóa', $exception->getMessage()]);
+            return response()->json(['success' => false, 'data' => $exception->getMessage()]);
 
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getData(Request $request)
+    {
+
+        $model = new Product();
+
+        return response()->json([
+            'success' => true,
+            'code' => 200,
+            'data' => view($this->getView('partials._table_ajax'), [
+                'params' => $request->all(),
+                'data' => $model->search($request->all()),
+            ])->render()
+        ]);
+    }
 }

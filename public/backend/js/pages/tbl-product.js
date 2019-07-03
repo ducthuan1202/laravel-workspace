@@ -3,6 +3,7 @@ class Product {
     constructor() {
         this.loadFormUrl = '';
         this.saveFormUrl = '';
+        this.urlGetData = '';
         this.divErrorId = '';
     }
 
@@ -67,7 +68,7 @@ class Product {
         /**
          * event click button add new
          */
-        $("[data-function='loadForm']").on('click', function () {
+        $("#grid-table-data").on('click', "[data-function='loadForm']", function () {
             self.loadForm($(this).data('id'));
         });
 
@@ -87,6 +88,31 @@ class Product {
             if (url.length) {
                 self.destroy(url);
             }
+        });
+
+
+        /**
+         * add event click to link a paginate
+         */
+        $("#grid-table-data").on('click', 'a.page-link', function (event) {
+            event.preventDefault();
+
+            self.urlGetData = $(this).attr('href');
+            self.getData();
+
+            return false;
+        });
+
+
+        /**
+         * product search form submit event
+         */
+
+        $("form[name='product-search-form']").on('submit', function(event){
+            event.preventDefault();
+            const dataRequest = $(this).serializeArray();
+            self.getData(dataRequest);
+            return false;
         });
     }
 
@@ -112,7 +138,7 @@ class Product {
 
     }
 
-    initSelect2(){
+    initSelect2() {
         console.log('init select2', $('.select2'));
         $('.select2').select2({
             width: '100%',
@@ -148,12 +174,20 @@ class Product {
             url: this.loadFormUrl,
             method: 'GET',
             data: {id: id},
+            beforeSend: function () {
+                MyApp.blockUI({
+                    target: '#grid-table-data',
+                    message: 'Tải dữ liệu...',
+                    overlayColor: '#000'
+                });
+            },
             success: function (response) {
                 if (response.success) {
                     self.loadFormSuccess(response);
                 } else {
                     self.loadFormFail(response);
                 }
+                MyApp.unblockUI('#grid-table-data');
             }
         });
     }
@@ -165,37 +199,48 @@ class Product {
     */
 
     saveFormSuccess(res) {
-        console.log(res);
         this.initInputMask();
-        window.location.reload(true);
+        MyApp.unblockUI('#exampleModal');
+        MyApp.notifySuccess('Thành công', res.data);
+        $("#exampleModal").html('').modal('hide');
+        this.getData();
     }
 
     saveFormFail(res) {
         this.showError(res);
         this.initInputMask();
+        MyApp.unblockUI('#exampleModal');
     }
 
     saveFormError(res) {
         this.showError(res);
         this.initInputMask();
+        MyApp.unblockUI('#exampleModal');
     }
 
     saveForm(data = {}) {
         const self = this;
-        $.ajax({
+
+        const request = $.ajax({
             url: this.saveFormUrl,
             method: 'POST',
             data: data,
-            success: function (response) {
-                if (response.success) {
-                    self.saveFormSuccess(response);
-                } else {
-                    self.saveFormFail(response);
-                }
-            },
-            error: function (response) {
-                self.saveFormError(response);
+            beforeSend: function () {
+                MyApp.blockUI({target: '#exampleModal'});
             }
+        });
+
+        request.done(function (res) {
+            if (res.success) {
+                self.saveFormSuccess(res);
+            } else {
+                self.saveFormFail(res);
+            }
+        });
+
+        request.fail(function (res) {
+            self.saveFormError(res);
+
         });
     }
 
@@ -207,33 +252,86 @@ class Product {
 
     destroySuccess(res) {
         console.log(res);
-        window.location.reload(true);
+        MyApp.notifySuccess('Thông báo', 'Xóa thành công');
+        MyApp.unblockUI('#exampleModal');
+        $("#exampleModal").html('').modal('hide');
+        this.getData();
     }
 
     destroyFail(res) {
         this.showError(res);
+        MyApp.notifyError('Thông báo', 'Xóa thất bại');
+        MyApp.unblockUI('#exampleModal');
     }
 
     destroyError(res) {
         this.showError(res);
+        MyApp.unblockUI('#exampleModal');
     }
 
     destroy(url) {
         const self = this;
-        $.ajax({
+
+        if(!confirm('Xóa dữ liệu sẽ không thể khôi phục lại?')){
+            return false;
+        }
+
+        const request = $.ajax({
             url: url,
-            method: 'DELETE',
+            method: 'POST',
             data: {_method: 'DELETE'},
-            success: function (response) {
-                if (response.success) {
-                    self.destroySuccess(response);
-                } else {
-                    self.destroyFail(response);
-                }
-            },
-            error: function (response) {
-                self.destroyError(response);
+            beforeSend: function () {
+                MyApp.blockUI({target: '#exampleModal'});
             }
+        });
+
+        request.done(function (res) {
+            if (res.success) {
+                self.destroySuccess(res);
+            } else {
+                self.destroyFail(res);
+            }
+
+        });
+
+
+        request.fail(function (res) {
+            self.destroyError(res);
+        });
+    }
+
+
+    /*
+    * --------------------------------------------------------
+    * LOAD DATA
+    * --------------------------------------------------------
+    */
+    getData(data = {}) {
+
+        const request = $.ajax({
+            url: this.urlGetData,
+            method: "GET",
+            dataType: "json",
+            data: data,
+            beforeSend: function(){
+                MyApp.blockUI({
+                    target: '#grid-table-data',
+                    message: 'Tải dữ liệu...',
+                    overlayColor: '#000'
+                });
+            }
+        });
+
+        request.done(function (res) {
+            if(res.success){
+                $("#grid-table-data").html(res.data);
+                MyApp.unblockUI('#grid-table-data');
+            }
+        });
+
+        request.fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+            MyApp.unblockUI('#grid-table-data');
         });
     }
 }

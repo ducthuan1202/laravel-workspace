@@ -31,6 +31,7 @@ use Illuminate\Support\Arr;
  */
 class Product extends BaseModel
 {
+    protected $perPage = 10;
 
     /**
      * Trạng thái của kích hoạt và tạm ngưng của sản phẩm
@@ -109,8 +110,7 @@ class Product extends BaseModel
      */
     public function scopeHasUpdated(Builder $query)
     {
-        $query->whereNotNull('updated_at')
-            ->whereColumn('created_at', '<>','updated_at');
+        $query->whereNotNull('updated_at');
     }
 
     /*

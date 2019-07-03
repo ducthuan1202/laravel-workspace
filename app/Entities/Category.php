@@ -21,7 +21,6 @@ use Illuminate\Support\Arr;
  */
 class Category extends BaseModel
 {
-    protected $perPage = 10;
 
     const
         STATUS_PENDING = 1,

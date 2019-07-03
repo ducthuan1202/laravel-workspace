@@ -6,7 +6,7 @@
 ?>
 
 
-<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+<div class="modal-dialog modal-xl" role="document">
 
     <div class="modal-content">
 
@@ -21,12 +21,9 @@
 
             <div class="alert alert-danger d-none" id="ajaxErrors"></div>
 
-
             {{ Form::open(['method' => 'POST', 'url' => admin_route('products.store')]) }}
 
             {{ Form::hidden('id', $model->id) }}
-
-
 
             <div class="row">
                 <div class="col-md-6">
@@ -45,7 +42,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="col-md-6">

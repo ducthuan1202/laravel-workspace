@@ -104,8 +104,6 @@ ul.pagination[role='navigation'] {
     justify-content: center !important
 }
 
-
-
 .select2-container--classic .select2-selection--single .select2-selection__arrow{ height: 35px!important;}
 .select2-container--classic .select2-selection--single,
 .select2-container--classic .select2-selection--single .select2-selection__rendered{height: 37px!important; line-height: 37px!important;}

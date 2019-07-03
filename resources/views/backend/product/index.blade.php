@@ -26,25 +26,17 @@
 
             @include('backend.layouts.partials.alert')
 
-            @include('backend.product.partials._table')
+            <div class="table-responsive" id="grid-table-data" style="min-height: 200px;"></div>
 
-            @include('backend.layouts.partials.paginate')
+{{--            @include('backend.product.partials._table')--}}
+
+{{--            @include('backend.layouts.partials.paginate')--}}
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true" data-keyboard="false" data-backdrop="static"></div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static"></div>
 
 @endsection
-
-@push('style')
-    <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}" />
-    <style>
-        .select2-container--classic .select2-selection--single .select2-selection__arrow{ height: 38px!important;}
-        .select2-container--classic .select2-selection--single,
-        .select2-container--classic .select2-selection--single .select2-selection__rendered{height: 40px!important; line-height: 40px!important;}
-    </style>
-@endpush
 
 @push('scripts')
     <script src="{{ asset('vendor/mask/jquery.mask.min.js') }}"></script>
@@ -62,7 +54,12 @@
             product.loadFormUrl = '{{ admin_route('products.create') }}';
             product.saveFormUrl = '{{ admin_route('products.store') }}';
             product.divErrorId = 'ajaxErrors';
+            product.urlGetData = '{{admin_route('products.get_data')}}';
+
             product.init();
+
+            product.getData();
+
         })
     </script>
 @endpush

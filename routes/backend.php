@@ -22,6 +22,7 @@ Route::namespace('Backend')->group(function () {
         Route::get('eloquent', 'HomeController@eloquent')->name('home.eloquent');
         Route::get('categories/list', 'CategoryController@list')->name('categories.list');
         Route::get('categories/get-data', 'CategoryController@getData')->name('categories.get_data');
+        Route::get('products/get-data', 'ProductController@getData')->name('products.get_data');
 
         Route::resources([
             'logs' => 'LogController',
