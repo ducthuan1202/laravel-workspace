@@ -3,39 +3,39 @@
 if (!function_exists('get_admin_prefix_url')) {
 
     /**
-     * tiền tố link của url admin
+     * Hàm trả về tiền tố URL trong backend
      *
      * @return \Illuminate\Config\Repository|mixed
      */
     function get_admin_prefix_url()
     {
-        return 'admin';
+        return config('custom.backend.prefix_url', 'admin');
     }
 }
 
 if (!function_exists('get_admin_prefix_name')) {
 
     /**
-     * tiền tố tên của route admin
+     * Hàm trả về tên tiền tố đặt tên cho route trong backend
      *
      * @return \Illuminate\Config\Repository|mixed
      */
     function get_admin_prefix_name()
     {
-        return 'backend';
+        return config('custom.backend.prefix_router_name', 'backend');
     }
 }
 
 if (!function_exists('get_admin_view_folder')) {
 
     /**
-     * tên thư mục
+     * Hàm trả về tên thư mục chứa tài nguyên sử dụng trong backend
      *
      * @return \Illuminate\Config\Repository|mixed
      */
     function get_admin_view_folder()
     {
-        return 'backend';
+        return config('custom.backend.folder');
     }
 }
 
@@ -43,7 +43,7 @@ if (!function_exists('get_admin_view_folder')) {
 if (!function_exists('admin_route')) {
 
     /**
-     * get route administrator
+     * Hàm trả về URL của router backend
      *
      * @param $name
      * @param array $parameters
@@ -52,14 +52,14 @@ if (!function_exists('admin_route')) {
      */
     function admin_route($name, $parameters = [], $absolute = true)
     {
-        return route(get_admin_prefix_name() . '.' . $name, $parameters, $absolute);
+        return route(get_admin_prefix_name() . $name, $parameters, $absolute);
     }
 }
 
 if (!function_exists('admin_request_is')) {
 
     /**
-     * check request to administrator
+     * Hàm check link backend
      *
      * @param $name
      * @return bool
@@ -73,7 +73,7 @@ if (!function_exists('admin_request_is')) {
 if (!function_exists('admin_asset')) {
 
     /**
-     * get path of backend assets
+     * Hàm trả về đường dẫn liên kết tới tài nguyên trong backend
      *
      * @param $path
      * @param null $secure

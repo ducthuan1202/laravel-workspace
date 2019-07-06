@@ -28,6 +28,7 @@ use Illuminate\Support\Arr;
 class Category extends BaseModel
 {
 
+    protected $perPage = 5;
     const
         STATUS_PENDING = 1,
         STATUS_APPROVED = 2,

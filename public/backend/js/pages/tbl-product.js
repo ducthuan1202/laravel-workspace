@@ -65,6 +65,10 @@ class Product {
     addEvent() {
         const self = this;
 
+        $("[data-function='loadForm']").on('click', function () {
+            self.loadForm($(this).data('id'));
+        });
+
         /**
          * event click button add new
          */
@@ -291,9 +295,7 @@ class Product {
             } else {
                 self.destroyFail(res);
             }
-
         });
-
 
         request.fail(function (res) {
             self.destroyError(res);

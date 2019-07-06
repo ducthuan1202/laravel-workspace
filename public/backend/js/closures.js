@@ -8,11 +8,14 @@ function confirmFormDelete(event, formId) {
     }
 }
 
-function pNotifySuccess(title, content){
-    new PNotify({
-        title: title,
-        text: content,
-        styling: 'bootstrap3',
-        type: 'success',
-    });
+function _notify(title, content, type = 'success') {
+    new PNotify({title, content, type, styling: 'bootstrap3',});
+}
+
+function pNotifySuccess(title, content) {
+    _notify(title, content);
+}
+
+function pNotifyError(title, content) {
+    _notify(title, content, 'error');
 }

@@ -14,8 +14,7 @@
             <th>Ngày tạo</th>
             <th>Nổi bật</th>
             <th>Trạng thái</th>
-            <th>Người tạo</th>
-            <th> &nbsp; </th>
+            <th class="text-right">Người tạo</th>
         </tr>
         </thead>
         <tbody>
@@ -41,26 +40,8 @@
                     <td>
                         {{ $item->formatStatus() }}
                     </td>
-                    <td>
-                        {{ $item->formatCreatedBy() }}
-                    </td>
                     <td class="text-right">
-                        @can('isAuthor', $item)
-                            <div class="btn-group btn-group-sm" role="group" aria-label="control group" style="margin-right: 7px">
-
-                                <a href="{{ admin_route('products.show', $item->id) }}" class="btn btn-info"> Xem </a>
-
-                                <a href="{{ admin_route('products.edit', $item->id) }}" class="btn btn-primary"> Sửa </a>
-
-                                <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmFormDelete('{{'df_'.$item->id}}', true);"> Xóa </a>
-
-                            </div>
-
-                        @endcan
-
-                        @cannot('isAuthor', $item)
-                            <span class="btn btn-secondary btn-sm disabled" style="margin-right: 7px; width: 125px"> No permission </span>
-                        @endcannot
+                        <a href="javascript:void(0)">{{ $item->formatCreatedBy() }}</a>
                     </td>
                 </tr>
 

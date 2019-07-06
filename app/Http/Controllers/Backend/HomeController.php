@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 
+use App\Admin;
 use App\Entities\Category;
 use App\Mail\CategoryDeleteMailable;
 use Illuminate\Support\Arr;
@@ -26,37 +27,11 @@ class HomeController extends BackendController
      */
     public function index()
     {
-
-//        $this->authorize('isAdmin');
-
         return view($this->getView('index'), [
-            'title' => $this->title
+            'title' => $this->title,
+            'admins' => Admin::get()
         ]);
     }
-
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function socket()
-    {
-
-        return view($this->getView('socket'), [
-            'title' => 'socket io'
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function api()
-    {
-
-        return view($this->getView('api'), [
-            'title' => 'socket io'
-        ]);
-    }
-
-
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

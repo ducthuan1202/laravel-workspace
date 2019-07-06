@@ -163,36 +163,4 @@ class CategoryController extends BackendController
         return new CategoryResource($category);
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function list(Request $request){
-        $model = new Category();
-        return view($this->getView('list'), [
-            'title' => sprintf('Danh sách [%s]', $this->title),
-            'params' => $request->all(),
-            'model' => $model,
-            'data'=> $model->search($request->all())
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function getData(Request $request){
-
-        $model = new Category();
-
-        return response()->json([
-            'success'=> true,
-            'code' => 200,
-            'data'=> view($this->getView('partials._table_ajax'), [
-                'params'=> $request->all(),
-                'data'=> $model->search($request->all()),
-            ])->render()
-        ]);
-    }
 }
