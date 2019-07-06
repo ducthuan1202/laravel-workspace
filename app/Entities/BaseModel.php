@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class BaseModel
  * @package App\Entities
+ * ----------------------------------------------------
+ * @property integer id
+ * @property integer created_by
  *
  * @property string created_at
  * @property string updated_at
+ *
+ * @property Admin admin
  */
 class BaseModel extends Model
 {
 
     protected $perPage = 20;
-
 
     /**
      * @param string $default

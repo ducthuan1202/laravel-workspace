@@ -59,7 +59,7 @@ class ProductController extends BackendController
     public function create(Request $request)
     {
         /** @var Product $model */
-        $model = Product::firstOrNew(['id' => $request->get('id')]);
+        $model = Product::firstOrNew(['id' => (int)$request->get('id')]);
 
         /** tự động tăng view lên 1 đơn vị */
         // $model->increment('views');
@@ -87,7 +87,7 @@ class ProductController extends BackendController
 
         try {
             /** @var Product $model */
-            $model = Product::firstOrNew(['id' => $request->get('id')]);
+            $model = Product::firstOrNew(['id' => (int)$request->get('id')]);
 
             $model->fill($request->all());
             $model->is_feature = $request->get('is_feature') ? Product::IS_FEATURE : Product::IS_NOT_FEATURE;
@@ -96,7 +96,6 @@ class ProductController extends BackendController
 
             return response()->json([
                 'success' => true,
-                'datax' => view($this->getView('partials._row'), ['model' => $model])->render(),
                 'data' => 'lưu thành công',
             ]);
 

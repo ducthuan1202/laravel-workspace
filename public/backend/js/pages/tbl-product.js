@@ -65,8 +65,11 @@ class Product {
     addEvent() {
         const self = this;
 
+        /**
+         * event click a loadForm
+         */
         $("[data-function='loadForm']").on('click', function () {
-            self.loadForm($(this).data('id'));
+            self.loadForm();
         });
 
         /**
@@ -94,7 +97,6 @@ class Product {
             }
         });
 
-
         /**
          * add event click to link a paginate
          */
@@ -107,12 +109,11 @@ class Product {
             return false;
         });
 
-
         /**
          * product search form submit event
          */
 
-        $("form[name='product-search-form']").on('submit', function(event){
+        $("form[name='product-search-form']").on('submit', function (event) {
             event.preventDefault();
             const dataRequest = $(this).serializeArray();
             self.getData(dataRequest);
@@ -276,7 +277,7 @@ class Product {
     destroy(url) {
         const self = this;
 
-        if(!confirm('Xóa dữ liệu sẽ không thể khôi phục lại?')){
+        if (!confirm('Xóa dữ liệu sẽ không thể khôi phục lại?')) {
             return false;
         }
 
@@ -315,7 +316,7 @@ class Product {
             method: "GET",
             dataType: "json",
             data: data,
-            beforeSend: function(){
+            beforeSend: function () {
                 MyApp.blockUI({
                     target: '#grid-table-data',
                     message: 'Tải dữ liệu...',
@@ -325,7 +326,7 @@ class Product {
         });
 
         request.done(function (res) {
-            if(res.success){
+            if (res.success) {
                 $("#grid-table-data").html(res.data);
                 MyApp.unblockUI('#grid-table-data');
             }

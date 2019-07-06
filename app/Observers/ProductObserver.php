@@ -18,7 +18,7 @@ class ProductObserver
      */
     public function creating(Product $product)
     {
-        $product->created_by = rand(1, 9);
+        $product->created_by = auth()->id();
         $product->slug = Str::slug($product->name);
     }
 
