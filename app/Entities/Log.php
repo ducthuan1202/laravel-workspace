@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Admin;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -10,23 +11,21 @@ use Illuminate\Support\Arr;
  * Class Log
  * @package App\Entities
  * --------------------------------------
- * @property integer id
  *
- * @property integer created_by
  * @property string name
  * @property string content
  * @property string action
  * @property string old_data
  *
- * @property string created_at
- * @property string updated_at
+ * @property Admin admin
  */
 class Log extends BaseModel
 {
     const
         ACTION_CREATE = 1,
         ACTION_UPDATE = 2,
-        ACTION_DELETE = 3;
+        ACTION_DELETE = 3,
+        ACTION_LOGIN = 4;
 
     /** @var string $table */
     protected $table = 'logs';
@@ -38,6 +37,12 @@ class Log extends BaseModel
         'old_data' => 'json'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function admin(){
+        return $this->belongsTo(Admin::class, 'created_by', 'id');
+    }
     /**
      * Thực hiện các hành động theo event của eloquent model
      */
@@ -80,6 +85,12 @@ class Log extends BaseModel
         static::deleted(function (Log $log) {
             // afterDelete()
         });
+
+
+        /** Thêm 1 scope global với Closures function */
+        static::addGlobalScope('withRelationship', function (Builder $builder) {
+            $builder->with(['admin']);
+        });
     }
 
     /**
@@ -118,7 +129,7 @@ class Log extends BaseModel
 
             [$startDate, $endDate] = explode(' - ', Arr::get($params, 'date'));
 
-            if($startDate && $endDate){
+            if ($startDate && $endDate) {
 
                 $inputFormat = 'd/m/Y';
                 $outputFormat = 'Y-m-d H:i:s';
@@ -146,6 +157,7 @@ class Log extends BaseModel
             self::ACTION_CREATE => 'CREATE',
             self::ACTION_UPDATE => 'UPDATE',
             self::ACTION_DELETE => 'DELETE',
+            self::ACTION_LOGIN => 'LOGIN',
         ];
 
         if ($addAll === true) {
@@ -162,10 +174,9 @@ class Log extends BaseModel
     */
 
     /**
-     * @param string $color
      * @return string
      */
-    public function formatClassLog($color = '#fff')
+    public function formatClassLog()
     {
         $action = (string)strtoupper($this->action);
         switch ($action) {
@@ -178,7 +189,11 @@ class Log extends BaseModel
             case self::ACTION_DELETE:
                 $color = '#fff4e3';
                 break;
+            case self::ACTION_LOGIN:
+                $color = '#fff';
+                break;
             default:
+                $color = '#fff';
                 break;
         }
 

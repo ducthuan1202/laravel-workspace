@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Entities\Category;
+use App\Entities\Log;
 use App\Entities\Product;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -27,6 +28,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * @property Category[] categories
  * @property Product[] products
+ * @property Log[] logs
  */
 class Admin extends Authenticatable
 {
@@ -74,11 +76,25 @@ class Admin extends Authenticatable
     | QUAN HỆ GIỮA CÁC MODEL
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function products(){
         return $this->hasMany(Product::class, 'created_by', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function categories(){
         return $this->hasMany(Category::class, 'created_by', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function logs(){
+        return $this->hasMany(Log::class, 'created_by', 'id');
     }
 }

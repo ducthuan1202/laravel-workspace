@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
+use App\Admin;
+use App\Entities\Log;
+use App\Events\SendMailWhenUserLoginEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -58,7 +62,17 @@ class LoginController extends Controller
 
         if (Auth::guard('admin')->attempt($request->only('email', 'password'), $request->get('remember'))) {
 
-            # create log login
+            /** @var Admin $userLogin */
+            $userLogin = Auth::guard('admin')->user();
+
+            DB::table('logs')->insert([
+                'name' => 'Đăng nhập hệ thống',
+                'content' => sprintf('ip: %s <br/> Trình duyệt: %s', $request->ip(), $request->userAgent()),
+                'action' => Log::ACTION_LOGIN,
+                'created_by' => $userLogin->id,
+            ]);
+
+            event(new SendMailWhenUserLoginEvent($userLogin));
 
             return redirect()->intended(admin_route('home.index'));
         }

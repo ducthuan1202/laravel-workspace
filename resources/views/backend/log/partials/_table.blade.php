@@ -8,6 +8,7 @@
     <table class="table mb-0">
         <thead>
         <tr>
+            <th>Người tạo</th>
             <th>Hành động</th>
             <th>Tên</th>
             <th>Chi tiết</th>
@@ -20,6 +21,7 @@
 
             @foreach($data as $index => $item)
                 <tr style="background-color: {{ $item->formatClassLog() }}">
+                    <td>{!! $item->formatHtmlCreatedBy() !!}</td>
                     <td>{{ $item->formatAction() }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{!! $item->content !!}</td>
