@@ -67,7 +67,10 @@ class CategoryController extends BackendController
     {
         try {
             $model = new Category();
-            $model->fill($request->all())->save();
+            $model->fill($request->all());
+            $model->is_activate = $request->get('is_activate', 0) ? Category::BOOLEAN_TRUE : Category::BOOLEAN_FALSE;
+
+            $model->save();
 
             $administrator = Admin::where('role', Admin::ROLE_ADMIN)->firstOrFail();
             $administrator->notify(new NewCategoryNotify($model));
@@ -122,8 +125,12 @@ class CategoryController extends BackendController
         $this->authorize('update', $category);
 
         try {
-            $category->fill($request->all())->save();
-            return back()->with('success', sprintf('Cập nhật: [%s] thành công.', $this->title));
+            $category->fill($request->all());
+            $category->is_activate = $request->get('is_activate', 0) ? Category::BOOLEAN_TRUE : Category::BOOLEAN_FALSE;
+            $category->save();
+
+            return redirect()->route($this->getRoute('index'))
+                ->with('success', sprintf('Cập nhật: [%s] thành công.', $this->title));
 
         } catch (\Exception $exception) {
             return back()->withInput($request->all())

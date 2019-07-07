@@ -86,13 +86,10 @@ class ProductController extends BackendController
     {
 
         try {
-            /** @var Product $model */
-            $model = Product::firstOrNew(['id' => (int)$request->get('id')]);
 
-            $model->fill($request->all());
-            $model->is_feature = $request->get('is_feature') ? Product::IS_FEATURE : Product::IS_NOT_FEATURE;
-            $model->status = $request->get('status') ? Product::STATUS_ACTIVATE : Product::STATUS_DEACTIVATE;
-            $model->save();
+            Product::firstOrNew(['id' => (int)$request->get('id')])
+                ->fill($request->all())
+                ->save();
 
             return response()->json([
                 'success' => true,

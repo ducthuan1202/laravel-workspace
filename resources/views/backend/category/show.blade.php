@@ -13,10 +13,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h6>
-                {{ $title }}
-                <a href="{{ admin_route('categories.edit', $model) }}" class="btn btn-info float-right btn-sm">Chỉnh sửa</a>
-            </h6>
+            <h6>{{ $title }}</h6>
         </div>
         <div class="card-body-custom">
 
@@ -28,21 +25,32 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th>ID</th>
-                        <td>{{ $model->id }}</td>
+                        <th>Người Tạo</th>
+                        <td>{!! $model->formatHtmlCreatedBy() !!}</td>
                     </tr>
                     <tr>
                         <th>Tên</th>
                         <td>{{ $model->name }}</td>
                     </tr>
-
+                    <tr>
+                        <th>Slug</th>
+                        <td>{{ $model->slug }}</td>
+                    </tr>
+                    <tr>
+                        <th>Image</th>
+                        <td>{{ $model->image }}</td>
+                    </tr>
+                    <tr>
+                        <th>Trạng thái</th>
+                        <td>{{ $model->formatIsActivate() }}</td>
+                    </tr>
                     <tr>
                         <th>Thời gian tạo</th>
                         <td>{{ $model->created_at }}</td>
                     </tr>
                     <tr>
                         <th>Cập nhật lần cuối</th>
-                        <td>{{ $model->updated_at }}</td>
+                        <td>{{ $model->updated_at ? $model->updated_at : 'chưa cập nhận lần nào' }}</td>
                     </tr>
 
                     <tr>

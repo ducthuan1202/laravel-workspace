@@ -18,7 +18,7 @@
         @yield('content')
     </main>
 
-    <script src="{{ asset('vendor/bootstrap/jquery-3.2.1.slim.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/popper.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/bootstrap.min.js') }}"></script>
     <script src="{{ admin_asset('js/app.js') }}"></script>

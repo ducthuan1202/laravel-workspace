@@ -3,9 +3,6 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 const SOCKET_EVENTS = {
-    CHANNEL_MESSAGE: 'channel_message',
-    EMIT_ONE: 'emit_one',
-    EMIT_ALL: 'emit_all',
     NEW_CONNECT: 'new_connect',
     GET_USER_ID: 'get_user_id',
 };
@@ -26,15 +23,18 @@ io.on('connection', (socket) => {
     /**
      * Phát sự kiện kết nối
      */
-    socket.emit(SOCKET_EVENTS.NEW_CONNECT, {        
+    socket.emit(SOCKET_EVENTS.NEW_CONNECT, {
         socketId: socket.id,
         issued: socket.handshake.issued,
     });
+    console.log('new connect');
 
     /**
      * Lắng nghe sự kiện ngắt kết nối
      */
     socket.on('disconnect', () => {
+
+        console.log('disconnect');
 
         userIdConnected.forEach((item, index) => {
             let key = Object.keys(item)[0];
@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
                 userIdConnected.splice(index, 1);
             }
         });
-        
+
         io.emit(SOCKET_EVENTS.GET_USER_ID, {
             data: userIdConnected
         });
@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
      * Lắng nghe sự kiện get_user_id
      */
     socket.on(SOCKET_EVENTS.GET_USER_ID, (msg) => {
-
+        console.log('get user');
         let obj = {};
         obj[socket.id] = msg.userId;
         userIdConnected.push(obj);

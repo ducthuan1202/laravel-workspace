@@ -32,6 +32,18 @@
                     @if ($errors->has('name'))<div class="invalid-feedback">{{ $errors->first('name') }}</div> @endif
                 </div>
 
+                <div class="form-group" data-hint="image">
+                    {{ Form::label('image', 'Link ảnh cho danh mục') }}
+                    {{ Form::text('image', old('image') ? old('image') : $model->image, ['class' => 'form-control '. ($errors->has('image') ? 'is-invalid' : '') ]) }}
+                    @if ($errors->has('image'))<div class="invalid-feedback">{{ $errors->first('image') }}</div> @endif
+                    <small class="form-text text-muted">Ví dụ: https://ducthuan.net/images/picture01.jpg</small>
+                </div>
+
+                <div class="custom-control custom-switch">
+                    {{ Form::checkbox('is_activate', $model::BOOLEAN_TRUE, $model->is_activate, ['class' => 'custom-control-input', 'id'=> 'is_activate' ]) }}
+                    {{ Form::label('is_activate', 'Kích hoạt', ['class'=> 'custom-control-label']) }}
+                </div>
+
             </div>
 
             <div class="card-footer text-center">

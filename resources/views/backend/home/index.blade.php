@@ -10,14 +10,6 @@ $admin = auth()->user();
 @section('title') {{ $title }} @endsection
 
 @section('content')
-<style>
-    .color-green{
-        color: green;
-    }
-    .color-gray{
-        color: gray;
-    }
-</style>
 <div class="row">
     <div class="col-md-8">
         <div class="card">
@@ -37,8 +29,6 @@ $admin = auth()->user();
                 <div id="apexColumns"></div>
             </div>
         </div>
-
-
 
         <div class="card mt-5">
             <div class="card-header">
@@ -74,7 +64,6 @@ $admin = auth()->user();
                         <li class="is-online color-gray" id="admin-{{$admin->id}}">{{ $admin->name }}</li>
                     @endforeach
                 </ul>
-
             </div>
         </div>
 
@@ -85,7 +74,7 @@ $admin = auth()->user();
             <div class="card-body">
 
                 @can('isAdmin')
-                    @foreach($admin->notifications as $notification)
+                    @foreach($admin->unreadNotifications() as $notification)
                         <div class="alert alert-info">
 
                             {{ $notification->data['user_name'] }} tạo mới danh mục

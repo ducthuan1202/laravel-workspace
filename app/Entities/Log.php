@@ -104,8 +104,9 @@ class Log extends BaseModel
      */
     public function search($params = [])
     {
+
         /** @var Builder $query */
-        $query = self::fromDays(7);
+        $query = self::latest();
 
         # lọc theo trạng thái
         if ($status = (string)Arr::get($params, 'action')) {
@@ -114,13 +115,23 @@ class Log extends BaseModel
 
         # lọc theo ngày
         if (Arr::get($params, 'date')) {
+
             [$startDate, $endDate] = explode(' - ', Arr::get($params, 'date'));
-            $startDate = Carbon::createFromFormat('d-m-Y', $startDate)->startOfDay()->format('Y-m-d H:i:s');
-            $endDate = Carbon::createFromFormat('d-m-Y', $endDate)->endOfDay()->format('Y-m-d H:i:s');
-            $query = $query->whereBetween('created_at', [$startDate, $endDate]);
+
+            if($startDate && $endDate){
+
+                $inputFormat = 'd/m/Y';
+                $outputFormat = 'Y-m-d H:i:s';
+
+                $query = $query->whereBetween('created_at', [
+                    Carbon::createFromFormat($inputFormat, $startDate)->startOfDay()->format($outputFormat),
+                    Carbon::createFromFormat($inputFormat, $endDate)->endOfDay()->format($outputFormat)
+                ]);
+            }
+
         }
 
-        return $query->latest()->paginate();
+        return $query->paginate();
 
     }
 

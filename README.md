@@ -46,4 +46,9 @@ Gate::define('isMember', function(Admin $admin){
     $data = collect($data)->prepend('chọn hành động', 0);
 ```
 
+## Migrate and seeder
+```bash
+php artisan migrate:refresh --seed
+php artisan clone:location
+```
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory;
 use Illuminate\Support\Str;
 
-class CategoriesTableSeeder extends Seeder
+class ProductsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,17 +16,21 @@ class CategoriesTableSeeder extends Seeder
         $faker = Factory::create();
         $data = [];
 
-        for ($i = 0; $i < 100; $i++):
-            $name = $faker->company;
+        for ($i = 0; $i < 1000; $i++):
+            $name = $faker->jobTitle;
             $data[] = [
+                'category_id' => rand(1,100),
                 'created_by' => rand(1,2),
                 'name' => $name,
                 'slug' => Str::slug($name),
-                'is_activate' => rand(0,1),
+                'price' => $faker->numberBetween(300, 1000),
+                'views' => $faker->numberBetween(0, 500),
+                'status' => rand(0,1),
+                'is_feature' => rand(0,1),
                 'created_at' => now()
             ];
         endfor;
 
-        DB::table('categories')->insert($data);
+        DB::table('products')->insert($data);
     }
 }

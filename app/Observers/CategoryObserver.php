@@ -13,7 +13,7 @@ class CategoryObserver
     /**
      * Handle the category "creating" event.
      *
-     * @param  \App\Entities\Category $category
+     * @param \App\Entities\Category $category
      * @return void
      */
     public function creating(Category $category)
@@ -23,16 +23,26 @@ class CategoryObserver
     }
 
     /**
+     * Handle the category "creating" event.
+     *
+     * @param Category $category
+     */
+    public function saving(Category $category)
+    {
+        $category->is_activate = request()->get('is_activate', 0) ? Category::BOOLEAN_TRUE : Category::BOOLEAN_FALSE;
+    }
+
+    /**
      * Handle the category "created" event.
      *
-     * @param  \App\Entities\Category $category
+     * @param \App\Entities\Category $category
      * @return void
      */
     public function created(Category $category)
     {
         Log::create([
             'name' => sprintf('Tạo mới %s', $this->name),
-            'content' => sprintf('Tạo mới %s: <a href="javascript:void(0);"> %s </a>', $this->name, $category->name),
+            'content' => sprintf('<a href="javascript:void(0);"> %s </a>', $category->name),
             'action' => Log::ACTION_CREATE
         ]);
     }
@@ -40,23 +50,15 @@ class CategoryObserver
     /**
      * Handle the category "updated" event.
      *
-     * @param  \App\Entities\Category $category
+     * @param \App\Entities\Category $category
      * @return void
      */
     public function updated(Category $category)
     {
-        $original = $category->getOriginal();
-        $attributes = $category->getAttributes();
-
-        $diff = collect($original)
-            ->diff($attributes)
-            ->forget(['created_at', 'updated_at'])
-            ->toJson();
-
         Log::create([
             'name' => sprintf('Cập nhật %s', $this->name),
-            'content' => sprintf('Cập nhật %s: <a href="javascript:void(0);"> %s </a>', $this->name, $category->name),
-            'old_data' => $diff,
+            'content' => sprintf('<a href="javascript:void(0);"> %s </a>', $category->name),
+            'old_data' => collect($category->getOriginal())->diff($category->getAttributes())->forget(['created_at', 'updated_at'])->toJson(),
             'action' => Log::ACTION_UPDATE
         ]);
     }
@@ -64,14 +66,14 @@ class CategoryObserver
     /**
      * Handle the category "deleted" event.
      *
-     * @param  \App\Entities\Category $category
+     * @param \App\Entities\Category $category
      * @return void
      */
     public function deleted(Category $category)
     {
         Log::create([
             'name' => sprintf('Xóa %s', $this->name),
-            'content' => sprintf('Xóa %s: <a href="javascript:void(0);"> %s </a>', $this->name, $category->name),
+            'content' => sprintf('<a href="javascript:void(0);"> %s </a>', $category->name),
             'action' => Log::ACTION_DELETE
         ]);
     }

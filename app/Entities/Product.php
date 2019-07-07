@@ -31,7 +31,7 @@ use Illuminate\Support\Arr;
  */
 class Product extends BaseModel
 {
-    protected $perPage = 10;
+    protected $perPage = 20;
 
     /**
      * Trạng thái của kích hoạt và tạm ngưng của sản phẩm
@@ -126,7 +126,7 @@ class Product extends BaseModel
     public function search($params = [])
     {
 
-        $query = self::hasUpdated();
+        $query = self::latest();
 
         # lọc theo từ khóa
         if ($keyword = (string)Arr::get($params, 'keyword')) {
@@ -145,7 +145,7 @@ class Product extends BaseModel
             $query = $query->where('is_feature', (boolean)$feature);
         }
 
-        return $query->oldest()->paginate();
+        return $query->paginate();
     }
 
     /**

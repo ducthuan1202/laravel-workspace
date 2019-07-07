@@ -16,7 +16,7 @@ class Log {
                 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             },
             locale: {
-                format: 'DD-MM-YYYY'
+                format: 'DD/MM/YYYY'
             }
         };
 

@@ -13,7 +13,7 @@ class ProductObserver
     /**
      * Handle the product "creating" event.
      *
-     * @param  \App\Entities\Product $product
+     * @param \App\Entities\Product $product
      * @return void
      */
     public function creating(Product $product)
@@ -23,57 +23,60 @@ class ProductObserver
     }
 
     /**
+     * Handle the product "saving" event.
+     *
+     * @param Product $product
+     */
+    public function saving(Product $product)
+    {
+        $product->is_feature = request()->is_feature ? Product::IS_FEATURE : Product::IS_NOT_FEATURE;
+        $product->status = request()->status ? Product::STATUS_ACTIVATE : Product::STATUS_DEACTIVATE;
+    }
+
+    /**
      * Handle the product "created" event.
      *
-     * @param  \App\Entities\Product $product
+     * @param \App\Entities\Product $product
      * @return void
      */
     public function created(Product $product)
     {
-//        Log::create([
-//            'name' => sprintf('Tạo mới %s', $this->name),
-//            'content' => sprintf('Tạo mới %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
-//            'action' => Log::ACTION_CREATE
-//        ]);
+        Log::create([
+            'name' => sprintf('Tạo mới %s', $this->name),
+            'content' => sprintf('Tạo mới <a href="javascript:void(0);"> %s </a>', $product->name),
+            'action' => Log::ACTION_CREATE
+        ]);
     }
 
     /**
      * Handle the product "updated" event.
      *
-     * @param  \App\Entities\Product $product
+     * @param \App\Entities\Product $product
      * @return void
      */
     public function updated(Product $product)
     {
-        $original = $product->getOriginal();
-        $attributes = $product->getAttributes();
-
-        $diff = collect($original)
-            ->diff($attributes)
-            ->forget(['created_at', 'updated_at'])
-            ->toJson();
-
-//        Log::create([
-//            'name' => 'Cập nhật DANH MỤC',
-//            'content' => sprintf('Cập nhật %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
-//            'old_data' => $diff,
-//            'action' => Log::ACTION_UPDATE
-//        ]);
+        Log::create([
+            'name' => 'Cập nhật ' . $this->name,
+            'content' => sprintf('<a href="javascript:void(0);"> %s </a>', $product->name),
+            'old_data' => collect($product->getOriginal())->diff($product->getAttributes())->forget(['created_at', 'updated_at'])->toJson(),
+            'action' => Log::ACTION_UPDATE
+        ]);
     }
 
     /**
      * Handle the product "deleted" event.
      *
-     * @param  \App\Entities\Product $product
+     * @param \App\Entities\Product $product
      * @return void
      */
     public function deleted(Product $product)
     {
-//        Log::create([
-//            'name' => 'Xóa DANH MỤC',
-//            'content' => sprintf('Xóa %s: <a href="javascript:void(0);"> %s </a>', $this->name, $product->name),
-//            'action' => Log::ACTION_DELETE
-//        ]);
+        Log::create([
+            'name' => 'Xóa ' . $this->name,
+            'content' => sprintf('<a href="javascript:void(0);"> %s </a>', $product->name),
+            'action' => Log::ACTION_DELETE
+        ]);
 
         /*Mail::send('auth.emails.change_email', ['category' => $product], function ($mail) {
             $mail->from('email_from@gmail.com', 'Tên Người Gửi')

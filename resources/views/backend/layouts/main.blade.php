@@ -55,34 +55,31 @@
         GET_USER_ID: 'get_user_id',
     };
 
-    if (socket.connected) {
-
         // emit sự kiện kết nối
-        socket.on(SOCKET_EVENTS.NEW_CONNECT, function (msg) {
-            socket.emit(SOCKET_EVENTS.GET_USER_ID, {
-                userId: '{{ auth()->id() }}'
-            });
+    socket.on(SOCKET_EVENTS.NEW_CONNECT, function (msg) {
+        socket.emit(SOCKET_EVENTS.GET_USER_ID, {
+            userId: '{{ auth()->id() }}'
+        });
+    });
+
+    // lắng nghe sự kiện get_user_id
+    socket.on(SOCKET_EVENTS.GET_USER_ID, function (msg) {
+        let ids = [];
+
+        msg.data.forEach(function (item) {
+            ids.push(Object.values(item)[0]);
         });
 
-        // lắng nghe sự kiện get_user_id
-        socket.on(SOCKET_EVENTS.GET_USER_ID, function (msg) {
-            let ids = [];
-
-            msg.data.forEach(function (item) {
-                ids.push(Object.values(item)[0]);
-            });
-
-            ids = ids.filter(function (value, index, self) {
-                return self.indexOf(value) === index;
-            });
-
-            $('.is-online').addClass('color-gray');
-            ids.forEach(function (id) {
-                $('#admin-' + id).removeClass('color-gray').addClass('color-green');
-            });
-
+        ids = ids.filter(function (value, index, self) {
+            return self.indexOf(value) === index;
         });
-    }
+
+        $('.is-online').addClass('color-gray');
+        ids.forEach(function (id) {
+            $('#admin-' + id).removeClass('color-gray').addClass('color-green');
+        });
+
+    });
 
 </script>
 

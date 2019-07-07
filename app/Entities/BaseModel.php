@@ -20,6 +20,10 @@ use Illuminate\Database\Eloquent\Model;
 class BaseModel extends Model
 {
 
+    const
+        BOOLEAN_TRUE = 1,
+        BOOLEAN_FALSE = 0;
+
     protected $perPage = 20;
 
     /**
@@ -30,6 +34,22 @@ class BaseModel extends Model
     {
         if (isset($this->admin) && $this->admin instanceof Admin) {
             return $this->admin->name;
+        }
+
+        return $default;
+    }
+
+    /**
+     * @param string $default
+     * @return string
+     */
+    public function formatHtmlCreatedBy($default = 'not set')
+    {
+        if (isset($this->admin) && $this->admin instanceof Admin) {
+            if((int)$this->admin->id === auth()->id()){
+                return sprintf('<a href="javascript:void(0);">%s <span class="badge badge-dark">bạn</span></a>', $this->admin->name);
+            }
+            return sprintf('<a href="javascript:void(0);">%s</a>', $this->admin->name);
         }
 
         return $default;

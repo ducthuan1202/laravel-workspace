@@ -11,9 +11,9 @@
         <tr>
             <th>#</th>
             <th>Tên</th>
-            <th>Ngày tạo</th>
             <th>Trạng thái</th>
             <th>Người tạo</th>
+            <th>Ngày tạo</th>
             <th> &nbsp; </th>
         </tr>
         </thead>
@@ -26,16 +26,18 @@
                     <td>{{ $index + $data->firstItem() }}</td>
 
                     <td>
-                        <a href="{{ admin_route('categories.edit', $item->id) }}"> <b>{{ $item->name }}</b> </a>
+                        <a href="{{ admin_route('categories.edit', $item->id) }}"> {{ $item->name }} </a>
                     </td>
+
+                    <td>
+                        {!! $item->formatHtmlIsActivate() !!}
+                    </td>
+                    <td>
+                        {!! $item->formatHtmlCreatedBy() !!}
+                    </td>
+
                     <td>
                         {{ $item->created_at }}
-                    </td>
-                    <td>
-                        {{ $item->updated_at ? 'đã sửa' : 'chưa sửa' }}
-                    </td>
-                    <td>
-                        {{ $item->formatCreatedBy() }}
                     </td>
                     <td class="text-right">
                         @can('isAuthor', $item)
@@ -53,10 +55,6 @@
                                 @method('DELETE')
                             {{ Form::close() }}
                         @endcan
-
-                        @cannot('isAuthor', $item)
-                            <span class="btn btn-secondary btn-sm disabled" style="margin-right: 7px; width: 125px"> No permission </span>
-                        @endcannot
                     </td>
                 </tr>
 

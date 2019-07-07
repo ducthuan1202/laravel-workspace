@@ -22,7 +22,8 @@ use Illuminate\Support\Arr;
 class Category extends BaseModel
 {
 
-    protected $perPage = 5;
+    protected $perPage = 50;
+
     const
         STATUS_PENDING = 1,
         STATUS_APPROVED = 2,
@@ -148,5 +149,27 @@ class Category extends BaseModel
         return self::all();
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | ĐỊNH DẠNG DỮ LIỆU KHI TRUY XUẤT
+    |--------------------------------------------------------------------------
+    */
+
+    public function formatIsActivate(){
+        if($this->is_activate){
+            return 'kích hoạt';
+        }
+
+        return 'tạm khóa';
+    }
+
+    public function formatHtmlIsActivate(){
+        if($this->is_activate){
+            return sprintf('<button class="btn btn-sm btn-info">Kích hoạt</button>');
+        }
+
+        return sprintf('<button class="btn btn-sm btn-secondary">Tạm khóa</button>');
+    }
 
 }
