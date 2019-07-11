@@ -31,7 +31,7 @@ use Illuminate\Support\Arr;
  */
 class Product extends BaseModel
 {
-    protected $perPage = 20;
+    protected $perPage = 50;
 
     /**
      * Trạng thái của kích hoạt và tạm ngưng của sản phẩm
@@ -210,9 +210,9 @@ class Product extends BaseModel
     public function formatFeature($default = 'bình thường')
     {
         if ($this->is_feature) {
-            return 'NỔI BẬT';
+            return sprintf('<span class="badge badge-subtle badge-warning" style="width: 150px"><i class="icofont-check"></i> Nổi bật </span>');
         }
-        return $default;
+        return sprintf('<span class="badge badge-subtle badge-success" style="width: 150px"><i class="icofont-close"></i> %s </span>', $default);
     }
 
 }

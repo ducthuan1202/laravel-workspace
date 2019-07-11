@@ -111,13 +111,10 @@ ul.pagination[role='navigation'] {
 /**
  * color class check online
  */
-.is-online{
-    font-weight: bold;
-    font-size: 20px;
-}
-.color-green{
-    color: green;
-}
-.color-gray{
-    color: gray;
-}
+.is-online{ font-weight: bold; font-size: 20px; }
+.color-green{ color: green; }
+.color-gray{ color: gray; }
+
+.tableFixHead thead th { position: sticky; top: -1px; }
+table.align-middle th,table.align-middle td{ vertical-align: middle; }
+.tableFixHead tbody tr{ position: sticky; top: 50px; }

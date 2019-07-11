@@ -30,6 +30,7 @@ class ProductController extends BackendController
      */
     public function __construct()
     {
+
         $this->title = 'Sản phẩm';
         $this->viewFolder = 'product';
         $this->routePrefix = 'products';
@@ -56,7 +57,7 @@ class ProductController extends BackendController
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function create(Request $request)
+    public function openForm(Request $request)
     {
         /** @var Product $model */
         $model = Product::firstOrNew(['id' => (int)$request->get('id')]);
@@ -82,7 +83,7 @@ class ProductController extends BackendController
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      * @throws \Throwable
      */
-    public function store(ProductRequest $request)
+    public function saveForm(ProductRequest $request)
     {
 
         try {
@@ -138,6 +139,7 @@ class ProductController extends BackendController
             'code' => 200,
             'data' => view($this->getView('partials._table_ajax'), [
                 'params' => $request->all(),
+                'model' => $model,
                 'data' => $model->search($request->all()),
             ])->render()
         ]);

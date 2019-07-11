@@ -4,15 +4,22 @@ class DemoApexChart {
         this.init();
     }
 
+    randomIntFromInterval(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
     init() {
         this.stackedBar();
         this.pie();
         this.columns();
         this.dynamicLoad();
         this.dashed();
+        this.distributed();
     }
 
     stackedBar() {
+        const self = this;
+
         const options = {
             chart: {
                 height: 350,
@@ -23,7 +30,6 @@ class DemoApexChart {
                 bar: {
                     horizontal: true,
                 },
-
             },
             stroke: {
                 width: 1,
@@ -46,7 +52,8 @@ class DemoApexChart {
                 data: [25, 12, 19, 32, 25, 24, 10]
             }],
             title: {
-                text: 'Fiction Books Sales'
+                text: 'Fiction Books Sales',
+                align: 'center',
             },
             xaxis: {
                 categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
@@ -55,12 +62,6 @@ class DemoApexChart {
                         return val + "K"
                     }
                 }
-            },
-            yaxis: {
-                title: {
-                    text: undefined
-                },
-
             },
             tooltip: {
                 y: {
@@ -71,22 +72,43 @@ class DemoApexChart {
             },
             fill: {
                 opacity: 1
-
             },
-
             legend: {
-                position: 'top',
-                horizontalAlign: 'left',
-                offsetX: 40
+                position: 'bottom',
+                horizontalAlign: 'center',
             }
-        }
+        };
 
-        const chart = new ApexCharts(
+        let chart = new ApexCharts(
             document.querySelector("#apexStackBar"),
             options
         );
 
         chart.render();
+
+        setTimeout(function () {
+            // nếu cần cập nhật thêm thông tin, thì sử dụng updateOptions
+
+            chart.updateSeries([
+                {
+                    name: 'Marine Sprite',
+                    data: [self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100)]
+                }, {
+                    name: 'Striking Calf',
+                    data: [self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100)]
+                }, {
+                    name: 'Tank Picture',
+                    data: [self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100)]
+                }, {
+                    name: 'Bucket Slope',
+                    data: [self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100)]
+                }, {
+                    name: 'Reborn Kid',
+                    data: [self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100), self.randomIntFromInterval(1, 100)]
+                }
+            ])
+
+        }, 3e3);
     }
 
     pie() {
@@ -225,7 +247,7 @@ class DemoApexChart {
 
     }
 
-    dashed(){
+    dashed() {
         const options = {
             chart: {
                 height: 350,
@@ -676,6 +698,86 @@ class DemoApexChart {
                 data: makeData()
             }])
         });
+
+    }
+
+    distributed() {
+        const self = this;
+
+        const colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8'];
+        const options = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                events: {
+                    click: function (chart, w, e) {
+                        // Evetn là sự kiện
+                        // w là chartContext
+                        // e là config
+                        console.log(chart, w, e)
+                    }
+                },
+                animations: {
+                    enabled: true,
+                    easing: 'easeout',
+                    speed: 300,
+                    animateGradually: {
+                        enabled: true,
+                        delay: 150
+                    },
+                    dynamicAnimation: {
+                        enabled: true,
+                        speed: 350
+                    }
+                }
+            },
+            colors: colors,
+            plotOptions: {
+                bar: {
+                    columnWidth: '45%',
+                    distributed: true
+                }
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            series: [{
+                data: [21, 22, 10, 28, 16, 21, 13, 30]
+            }],
+            xaxis: {
+                categories: ['John', 'Joe', 'Jake', 'Amber', 'Peter', 'Mary', 'David', 'Lily'],
+                labels: {
+                    style: {
+                        colors: colors,
+                        fontSize: '14px'
+                    }
+                }
+            }
+        }
+
+        const chart = new ApexCharts(
+            document.querySelector("#apexDistributed"),
+            options
+        );
+
+        chart.render();
+
+
+        setInterval(function () {
+            chart.updateSeries([{
+                data: [
+                    self.randomIntFromInterval(1, 100),
+                    self.randomIntFromInterval(1, 100),
+                    self.randomIntFromInterval(1, 100),
+                    self.randomIntFromInterval(1, 100),
+                    self.randomIntFromInterval(1, 100),
+                    self.randomIntFromInterval(1, 100),
+                    self.randomIntFromInterval(1, 100),
+                    self.randomIntFromInterval(1, 100),
+                ]
+            }])
+        }, 3e3);
+
 
     }
 }

@@ -1,6 +1,7 @@
 # Workspace
 - [helpers laravel](https://laravel.com/docs/5.8/helpers)
 - [faker](https://github.com/fzaninotto/Faker)
+- [context menu](https://swisnl.github.io/jQuery-contextMenu/demo.html)
 
 ## Cơ bản
 - Các event trong `Observer` sẽ thực hiện các hành động trước và sau khi `created`, `update`, `delete`

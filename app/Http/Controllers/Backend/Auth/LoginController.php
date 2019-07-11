@@ -72,7 +72,7 @@ class LoginController extends Controller
                 'created_by' => $userLogin->id,
             ]);
 
-            event(new SendMailWhenUserLoginEvent($userLogin));
+            // event(new SendMailWhenUserLoginEvent($userLogin));
 
             return redirect()->intended(admin_route('home.index'));
         }

@@ -97,4 +97,6 @@ class Admin extends Authenticatable
     public function logs(){
         return $this->hasMany(Log::class, 'created_by', 'id');
     }
+
+
 }

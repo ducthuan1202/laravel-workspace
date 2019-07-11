@@ -21,7 +21,7 @@
 
             <div class="alert alert-danger d-none" id="ajaxErrors"></div>
 
-            {{ Form::open(['method' => 'POST', 'url' => admin_route('products.store')]) }}
+            {{ Form::open(['method' => 'POST', 'url' => admin_route('products.save_form')]) }}
 
             {{ Form::hidden('id', $model->id) }}
 

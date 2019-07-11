@@ -33,7 +33,7 @@ class BaseModel extends Model
     public function formatCreatedBy($default = 'not set')
     {
         if (isset($this->admin) && $this->admin instanceof Admin) {
-            return $this->admin->name;
+            return sprintf('<img src="%s" alt="" class="border border-warning shadow-sm rounded-lg rounded-circle" width="50" height="50">', $this->admin->image);
         }
 
         return $default;

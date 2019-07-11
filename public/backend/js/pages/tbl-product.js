@@ -11,6 +11,8 @@ class Product {
         this.initInputMask();
         this.initSelect2();
         this.addEvent();
+        this.calcHeightTable();
+        this.initMenuContext();
     }
 
     activateDivError(divError, content) {
@@ -60,6 +62,93 @@ class Product {
 
         /** Mặc định show ra lỗi chung chung */
         self.activateDivError(divError, '<b>Lỗi không xác định</b>');
+    }
+
+    calcHeightTable() {
+        const min = 560;
+        const space = 200;
+
+        const windowHeight = $(window).height();
+        let height = windowHeight - space;
+        if (height < min) {
+            height = min;
+        }
+
+        $('#grid-table-data').slimScroll({
+            height: height + 'px',
+            allowPageScroll: false,
+        });
+    }
+
+    initMenuContext() {
+        $.contextMenu({
+            selector: '.context-menu-one',
+            callback: function (key, options) {
+                switch (key) {
+                    case 'status':
+                        pNotifySuccess('Context Menu', 'Bạn chọn trạng thái');
+                        break;
+                    case 'delete':
+                        pNotifyError('Cảnh báo', 'Xóa dữ liệu');
+                        break;
+                    default:
+                        pNotifySuccess('Context Menu', 'Bạn chọn ' + key);
+                        break;
+                }
+
+            },
+            items: {
+                "edit": {name: "Chỉnh sửa", icon: "edit",},
+                "copy": {name: "Copy SĐT", icon: "copy"},
+                "status": {
+                    name: "Chuyển trạng thái", icon: "paste",
+                    items: {
+                        "sttPending": {name: "Chờ duyệt"},
+                        "sttProcess": {name: "Đang xử lý"},
+                        "sttDone": {name: "Hoàn thành"},
+                    },
+
+                },
+                "delete": {name: "Xóa", icon: "delete"},
+                "sep1": "---------",
+                "quit": {
+                    name: "Quit", icon: function () {
+                        return 'context-menu-icon context-menu-icon-quit';
+                    }
+                }
+            }
+        });
+    }
+
+    initInputMask() {
+        const options = {
+            onComplete: function (cep) {
+                // alert('CEP Completed!:' + cep);
+            },
+            onKeyPress: function (cep, event, currentField, options) {
+                // console.log('A key was pressed!:', cep, ' event: ', event, 'currentField: ', currentField, ' options: ', options);
+            },
+            onChange: function (cep) {
+                // console.log('cep changed! ', cep);
+            },
+            onInvalid: function (val, e, f, invalid, options) {
+                // const [error] = invalid;
+                // console.log ("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
+            },
+            reverse: true
+        };
+
+        $('#exampleModal .inp-currency').mask('#,##0', options);
+
+    }
+
+    initSelect2() {
+        console.log('init select2', $('.select2'));
+        $('.select2').select2({
+            width: '100%',
+            height: '50px',
+            theme: "classic"
+        });
     }
 
     addEvent() {
@@ -119,37 +208,10 @@ class Product {
             self.getData(dataRequest);
             return false;
         });
-    }
 
-    initInputMask() {
-        const options = {
-            onComplete: function (cep) {
-                // alert('CEP Completed!:' + cep);
-            },
-            onKeyPress: function (cep, event, currentField, options) {
-                // console.log('A key was pressed!:', cep, ' event: ', event, 'currentField: ', currentField, ' options: ', options);
-            },
-            onChange: function (cep) {
-                // console.log('cep changed! ', cep);
-            },
-            onInvalid: function (val, e, f, invalid, options) {
-                // const [error] = invalid;
-                // console.log ("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
-            },
-            reverse: true
-        };
-
-        $('#exampleModal .inp-currency').mask('#,##0', options);
-
-    }
-
-    initSelect2() {
-        console.log('init select2', $('.select2'));
-        $('.select2').select2({
-            width: '100%',
-            height: '50px',
-            theme: "classic"
-        });
+        $("#grid-table-data").on('change', "form input, form select", function () {
+            console.log('123');
+        })
     }
 
     /*
@@ -175,26 +237,25 @@ class Product {
     loadForm(id) {
         const self = this;
 
-        $.ajax({
+        const request = $.ajax({
             url: this.loadFormUrl,
             method: 'GET',
             data: {id: id},
             beforeSend: function () {
-                MyApp.blockUI({
-                    target: '#grid-table-data',
-                    message: 'Tải dữ liệu...',
-                    overlayColor: '#000'
-                });
-            },
-            success: function (response) {
-                if (response.success) {
-                    self.loadFormSuccess(response);
-                } else {
-                    self.loadFormFail(response);
-                }
-                MyApp.unblockUI('#grid-table-data');
+                MyApp.blockUI({target: '#arena-block-ui'});
             }
         });
+
+        request.done(function (response) {
+            MyApp.unblockUI('#arena-block-ui');
+
+            if (response.success) {
+                self.loadFormSuccess(response);
+            } else {
+                self.loadFormFail(response);
+            }
+        });
+
     }
 
     /*
@@ -318,7 +379,7 @@ class Product {
             data: data,
             beforeSend: function () {
                 MyApp.blockUI({
-                    target: '#grid-table-data',
+                    target: '#arena-block-ui',
                     message: 'Tải dữ liệu...',
                     overlayColor: '#000'
                 });
@@ -328,13 +389,13 @@ class Product {
         request.done(function (res) {
             if (res.success) {
                 $("#grid-table-data").html(res.data);
-                MyApp.unblockUI('#grid-table-data');
+                MyApp.unblockUI('#arena-block-ui');
             }
         });
 
         request.fail(function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
-            MyApp.unblockUI('#grid-table-data');
+            MyApp.unblockUI('#arena-block-ui');
         });
     }
 }

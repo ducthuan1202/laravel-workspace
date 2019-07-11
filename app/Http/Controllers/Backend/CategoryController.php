@@ -26,6 +26,8 @@ class CategoryController extends BackendController
      */
     public function __construct()
     {
+        $this->middleware('check.owner')->only('edit');
+
         $this->title = 'Danh mục';
         $this->viewFolder = 'category';
         $this->routePrefix = 'categories';
@@ -91,7 +93,7 @@ class CategoryController extends BackendController
      */
     public function show(Category $category)
     {
-        $this->authorize('view', $category);
+        $this->authorize('isAuthor', $category);
 
         return view($this->getView('show'), [
             'title' => sprintf('%s %s', $this->title, $category->name),
@@ -106,7 +108,7 @@ class CategoryController extends BackendController
      */
     public function edit(Category $category)
     {
-        $this->authorize('edit', $category);
+        $this->authorize('isAuthor', $category);
 
         return view($this->getView('form'), [
             'title' => sprintf('%s: %s', $this->title, $category->name),
@@ -122,7 +124,7 @@ class CategoryController extends BackendController
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $this->authorize('update', $category);
+        $this->authorize('isAuthor', $category);
 
         try {
             $category->fill($request->all());

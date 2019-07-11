@@ -6,24 +6,22 @@
  */
 ?>
 
-<table class="table table-hover align-middle mb-0">
-        <thead>
+<table class="table table-hover mb-0 tableFixHead align-middle">
+    <thead>
         <tr>
-            <th>#</th>
-            <th>Tên</th>
-            <th>Ngày tạo</th>
-            <th>Nổi bật</th>
-            <th>Trạng thái</th>
-            <th class="text-right">Người tạo</th>
+            <th class="bg-light"></th>
+            <th class="bg-light">Tên sản phẩm</th>
+            <th class="bg-light">Ngày tạo</th>
+            <th class="bg-light">Đánh đấu nổi bật</th>
+            <th class="bg-light">Trạng thái sản phẩm</th>
+            <th class="bg-light text-right">Người tạo</th>
         </tr>
-        </thead>
-        <tbody>
+    </thead>
+    <tbody>
 
         @if($data->isNotEmpty())
-
             @foreach($data as $index => $item)
-
-                <tr>
+                <tr class="context-menu-one">
                     <td>{{ $index + $data->firstItem() }}</td>
 
                     <td>
@@ -31,17 +29,17 @@
                             {{ $item->name }}
                         </a>
                     </td>
-                    <td>
+                    <td class="status-menu">
                         {{ $item->formatCreatedAt() }}
                     </td>
                     <td>
-                        {{ $item->formatFeature() }}
+                        {!! $item->formatFeature() !!}
                     </td>
                     <td>
                         {{ $item->formatStatus() }}
                     </td>
                     <td class="text-right">
-                        <a href="javascript:void(0)">{{ $item->formatCreatedBy() }}</a>
+                        <a href="javascript:void(0)">{!! $item->formatCreatedBy() !!}</a>
                     </td>
                 </tr>
 
@@ -56,4 +54,7 @@
         </tbody>
     </table>
 
-@include('backend.layouts.partials.paginate')
+<div class="">
+    @include('backend.layouts.partials.paginate')
+</div>
+

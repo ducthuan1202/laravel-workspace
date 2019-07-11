@@ -14,13 +14,20 @@ Route::namespace('Backend')->group(function () {
 
         Route::get('/', 'HomeController@index')->name('home.index');
         Route::get('eloquent', 'HomeController@eloquent')->name('home.eloquent');
-        Route::get('products/get-data', 'ProductController@getData')->name('products.get_data');
+        Route::get('logs', 'LogController@index')->name('logs.index');
 
         Route::resources([
-            'logs' => 'LogController',
             'categories' => 'CategoryController',
-            'products' => 'ProductController',
         ]);
+
+        # group route `products`
+        Route::prefix('products')->name('products.')->group(function () {
+            Route::get('/', 'ProductController@index')->name('index');
+            Route::get('get-data', 'ProductController@getData')->name('get_data');
+            Route::get('create', 'ProductController@openForm')->name('open_form');
+            Route::post('store', 'ProductController@saveForm')->name('save_form');
+            Route::delete('destroy', 'ProductController@destroy')->name('destroy');
+        });
 
     });
 
