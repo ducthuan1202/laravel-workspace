@@ -30,7 +30,6 @@ class ProductController extends BackendController
      */
     public function __construct()
     {
-
         $this->title = 'Sản phẩm';
         $this->viewFolder = 'product';
         $this->routePrefix = 'products';

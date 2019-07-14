@@ -7,6 +7,7 @@ use App\Admin;
 use App\Entities\Category;
 use App\Mail\CategoryDeleteMailable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends BackendController
@@ -27,6 +28,11 @@ class HomeController extends BackendController
      */
     public function index()
     {
+        Log::info('Log dau tien của toi');
+        Log::alert('Log dau tien của toi');
+        Log::debug('Log dau tien của toi');
+        Log::notice('Log dau tien của toi');
+
         return view($this->getView('index'), [
             'title' => $this->title,
             'admins' => Admin::get()
