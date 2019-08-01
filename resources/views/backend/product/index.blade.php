@@ -63,9 +63,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('vendor/mask/jquery.mask.min.js') }}"></script>
-    <script src="{{ asset('vendor/slimscroll/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
+
     <script src="{{ admin_asset('js/pages/tbl-product.js') }}"></script>
     <script>
         const product = new Product();
@@ -81,10 +79,7 @@
             product.divErrorId = 'ajaxErrors';
             product.urlGetData = '{{admin_route('products.get_data')}}';
 
-            product.init();
-
             product.getData();
-
         })
     </script>
 @endpush

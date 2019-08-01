@@ -13,7 +13,9 @@ use App\Jobs\PageOnLoadJob;
 use App\Notifications\NewCategoryNotify;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
@@ -37,15 +39,49 @@ class ProductController extends BackendController
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getData(Request $request)
+    {
+        $cookieProductSearchParams = Cookie::get('product_search_params');
+        $cookieProductSearchParams = json_decode($cookieProductSearchParams, true);
+        if(!$cookieProductSearchParams){
+            $cookieProductSearchParams = $request->all();
+        } else {
+            $cookieProductSearchParams = array_merge($cookieProductSearchParams, $request->all());
+        }
+
+        Cookie::queue('product_search_params', json_encode($cookieProductSearchParams), 60*24*30);
+
+
+        $model = new Product();
+
+        return response()->json([
+            'success' => true,
+            'code' => 200,
+            'data' => view($this->getView('partials._table_ajax'), [
+                'params' => $cookieProductSearchParams,
+                'model' => $model,
+                'data' => $model->search($cookieProductSearchParams),
+            ])->render()
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         $model = new Product();
+        $params = Cookie::get('product_search_params', '');
+        $params = json_decode($params, true);
 
         return view($this->getView('index'), [
             'title' => sprintf('Danh sách [%s]', $this->title),
-            'params' => $request->all(),
+            'params' => $params,
             'model' => $model,
             'data' => $model->search($request->all()),
         ]);
@@ -123,24 +159,5 @@ class ProductController extends BackendController
         }
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function getData(Request $request)
-    {
 
-        $model = new Product();
-
-        return response()->json([
-            'success' => true,
-            'code' => 200,
-            'data' => view($this->getView('partials._table_ajax'), [
-                'params' => $request->all(),
-                'model' => $model,
-                'data' => $model->search($request->all()),
-            ])->render()
-        ]);
-    }
 }

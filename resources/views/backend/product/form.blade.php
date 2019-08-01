@@ -4,8 +4,6 @@
  * @var \App\Entities\Category[] $categories
  */
 ?>
-
-
 <div class="modal-dialog modal-xl" role="document">
 
     <div class="modal-content">

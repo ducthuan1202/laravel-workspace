@@ -7,7 +7,8 @@ use App\Admin;
 use App\Entities\Category;
 use App\Mail\CategoryDeleteMailable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends BackendController
@@ -28,16 +29,41 @@ class HomeController extends BackendController
      */
     public function index()
     {
-        Log::info('Log dau tien của toi');
-        Log::alert('Log dau tien của toi');
-        Log::debug('Log dau tien của toi');
-        Log::notice('Log dau tien của toi');
-
         return view($this->getView('index'), [
             'title' => $this->title,
             'admins' => Admin::get()
         ]);
     }
+
+    public function permissions()
+    {
+        $adminPrefix = config('custom.backend.prefix_url');
+
+        $data = [];
+        $exclude = ['backend.login', 'backend.check_login', 'backend.logout'];
+
+        foreach (Route::getRoutes()->get() as $route) {
+            $action = $route->getAction();
+
+            if (in_array(Arr::get($action, 'as'), $exclude)) {
+                continue;
+            }
+
+            if ($adminPrefix === Arr::get($action, 'prefix')) {
+                $data[] = [
+                    'name' => Arr::get($action, 'as'),
+                    'controller' => Arr::get($action, 'controller')
+                ];
+            }
+
+        }
+
+        DB::table('permissions')->truncate();
+        DB::table('permissions')->insert($data);
+
+        return 'Thêm danh sách quyền thành công.';
+    }
+
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

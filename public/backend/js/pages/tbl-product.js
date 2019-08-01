@@ -1,10 +1,10 @@
-class Product {
+class Product extends BaseClass {
 
     constructor() {
+        super();
         this.loadFormUrl = '';
         this.saveFormUrl = '';
         this.urlGetData = '';
-        this.divErrorId = '';
     }
 
     init() {
@@ -13,55 +13,6 @@ class Product {
         this.addEvent();
         this.calcHeightTable();
         this.initMenuContext();
-    }
-
-    activateDivError(divError, content) {
-
-        if (divError === undefined || divError.length === 0) {
-            console.log('khu vực hiển thị lỗi không xác định');
-            return;
-        }
-        divError.html(content).removeClass('d-none');
-
-    }
-
-    showError(res) {
-        const self = this;
-        const {success = null, data = null} = res;
-        const divError = $("#" + self.divErrorId);
-
-        /** Nếu json trả về success = false */
-        if (success === false) {
-            self.activateDivError(divError, data);
-            return;
-        }
-
-        const {message = null, errors = null} = res.responseJSON;
-        let content = '<b>' + message + '</b>';
-
-        /** Nếu lỗi là 1 object */
-        if (typeof errors === 'object') {
-            const errStr = [];
-            for (let err in errors) {
-                errStr.push(errors[err][0]);
-            }
-            if (errStr.length) {
-                self.activateDivError(divError, content + '<ul class="bt-0"><li>' + errStr.join('</li><li>') + '</li></ul>');
-            } else {
-                self.activateDivError(divError, content);
-            }
-
-            return;
-        }
-
-        /** Nếu lỗi là 1 string */
-        if (typeof errors === 'string' || typeof message === 'string') {
-            self.activateDivError(divError, content);
-            return;
-        }
-
-        /** Mặc định show ra lỗi chung chung */
-        self.activateDivError(divError, '<b>Lỗi không xác định</b>');
     }
 
     calcHeightTable() {
@@ -143,7 +94,6 @@ class Product {
     }
 
     initSelect2() {
-        console.log('init select2', $('.select2'));
         $('.select2').select2({
             width: '100%',
             height: '50px',
@@ -177,16 +127,6 @@ class Product {
         });
 
         /**
-         * event click button destroy
-         */
-        $("#exampleModal").on('click', "[data-function='destroy']", function () {
-            const url = $(this).data('href');
-            if (url.length) {
-                self.destroy(url);
-            }
-        });
-
-        /**
          * add event click to link a paginate
          */
         $("#grid-table-data").on('click', 'a.page-link', function (event) {
@@ -209,9 +149,6 @@ class Product {
             return false;
         });
 
-        $("#grid-table-data").on('change', "form input, form select", function () {
-            console.log('123');
-        })
     }
 
     /*
@@ -219,41 +156,37 @@ class Product {
     * LOAD FORM AND CALLBACK
     * --------------------------------------------------------
     */
-    loadFormSuccess(res) {
-        $("#exampleModal").html(res.data).modal('show');
-        this.initInputMask();
-        this.initSelect2()
-    }
-
-    /**
-     *
-     * @param res
-     */
-    loadFormFail(res) {
-        console.log('Lỗi load form', res);
-        this.initInputMask();
-    }
 
     loadForm(id) {
         const self = this;
+        const blockUiTarget = '#arena-block-ui';
 
+        /** send request **/
         const request = $.ajax({
-            url: this.loadFormUrl,
+            url: self.loadFormUrl,
             method: 'GET',
             data: {id: id},
             beforeSend: function () {
-                MyApp.blockUI({target: '#arena-block-ui'});
+                JsEs6.ui.blockUI({target: blockUiTarget});
             }
         });
 
-        request.done(function (response) {
-            MyApp.unblockUI('#arena-block-ui');
+        /** request done **/
+        request.done(function (res) {
+            JsEs6.ui.unblockUI(blockUiTarget);
+            self.initInputMask();
 
-            if (response.success) {
-                self.loadFormSuccess(response);
+            if (res.success) {
+                $("#exampleModal").html(res.data).modal('show');
+                self.initSelect2()
             } else {
-                self.loadFormFail(response);
+                console.log('Lỗi load form', res);
             }
+        });
+
+        /** request fail **/
+        request.fail(function (res) {
+            console.log('Lỗi load form', res);
         });
 
     }
@@ -264,103 +197,39 @@ class Product {
     * --------------------------------------------------------
     */
 
-    saveFormSuccess(res) {
-        this.initInputMask();
-        MyApp.unblockUI('#exampleModal');
-        MyApp.notifySuccess('Thành công', res.data);
-        $("#exampleModal").html('').modal('hide');
-        this.getData();
-    }
-
-    saveFormFail(res) {
-        this.showError(res);
-        this.initInputMask();
-        MyApp.unblockUI('#exampleModal');
-    }
-
-    saveFormError(res) {
-        this.showError(res);
-        this.initInputMask();
-        MyApp.unblockUI('#exampleModal');
-    }
-
     saveForm(data = {}) {
         const self = this;
+        const blockUiTarget = '#exampleModal';
 
+        /** send request **/
         const request = $.ajax({
-            url: this.saveFormUrl,
+            url: self.saveFormUrl,
             method: 'POST',
             data: data,
             beforeSend: function () {
-                MyApp.blockUI({target: '#exampleModal'});
+                JsEs6.ui.blockUI({target: blockUiTarget});
             }
         });
 
+        /** request done **/
         request.done(function (res) {
+            JsEs6.ui.unblockUI(blockUiTarget);
+            self.initInputMask();
+
             if (res.success) {
-                self.saveFormSuccess(res);
+                JsEs6.notify.success('Thành công', res.data);
+                $(blockUiTarget).html('').modal('hide');
+                self.getData();
             } else {
-                self.saveFormFail(res);
+                self.showError(res);
             }
         });
 
+        /** request fail **/
         request.fail(function (res) {
-            self.saveFormError(res);
-
-        });
-    }
-
-    /*
-    * --------------------------------------------------------
-    * DELETE AND CALLBACK
-    * --------------------------------------------------------
-    */
-
-    destroySuccess(res) {
-        console.log(res);
-        MyApp.notifySuccess('Thông báo', 'Xóa thành công');
-        MyApp.unblockUI('#exampleModal');
-        $("#exampleModal").html('').modal('hide');
-        this.getData();
-    }
-
-    destroyFail(res) {
-        this.showError(res);
-        MyApp.notifyError('Thông báo', 'Xóa thất bại');
-        MyApp.unblockUI('#exampleModal');
-    }
-
-    destroyError(res) {
-        this.showError(res);
-        MyApp.unblockUI('#exampleModal');
-    }
-
-    destroy(url) {
-        const self = this;
-
-        if (!confirm('Xóa dữ liệu sẽ không thể khôi phục lại?')) {
-            return false;
-        }
-
-        const request = $.ajax({
-            url: url,
-            method: 'POST',
-            data: {_method: 'DELETE'},
-            beforeSend: function () {
-                MyApp.blockUI({target: '#exampleModal'});
-            }
-        });
-
-        request.done(function (res) {
-            if (res.success) {
-                self.destroySuccess(res);
-            } else {
-                self.destroyFail(res);
-            }
-        });
-
-        request.fail(function (res) {
-            self.destroyError(res);
+            self.showError(res);
+            self.initInputMask();
+            JsEs6.ui.unblockUI(blockUiTarget);
         });
     }
 
@@ -372,30 +241,35 @@ class Product {
     */
     getData(data = {}) {
 
+        const self = this;
+        const blockUiTarget = '#arena-block-ui';
+
+        /** send request **/
         const request = $.ajax({
-            url: this.urlGetData,
+            url: self.urlGetData,
             method: "GET",
             dataType: "json",
             data: data,
             beforeSend: function () {
-                MyApp.blockUI({
-                    target: '#arena-block-ui',
-                    message: 'Tải dữ liệu...',
-                    overlayColor: '#000'
-                });
+                JsEs6.ui.blockUI({target: blockUiTarget});
             }
         });
 
+        /** request done **/
         request.done(function (res) {
+            JsEs6.ui.unblockUI(blockUiTarget);
+
             if (res.success) {
                 $("#grid-table-data").html(res.data);
-                MyApp.unblockUI('#arena-block-ui');
+            } else {
+                // code here
             }
         });
 
+        /** request fail **/
         request.fail(function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
-            MyApp.unblockUI('#arena-block-ui');
+            JsEs6.ui.unblockUI(blockUiTarget);
         });
     }
 }

@@ -20,6 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string image
  * @property integer role
  * @property integer is_activate
+ * @property integer is_super_admin
  * @property string remember_token
  * @property string email_verified_at
  *
@@ -35,8 +36,8 @@ class Admin extends Authenticatable
     use Notifiable;
 
     const
-        YES = 1,
-        NO = 0;
+        BOOLEAN_TRUE = 1,
+        BOOLEAN_false = 0;
     const
         ROLE_ADMIN = 1,
         ROLE_MEMBER = 2;
@@ -49,7 +50,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image', 'role', 'is_activate'
+        'name', 'email', 'password', 'image', 'role', 'is_activate', 'is_super_admin'
     ];
 
     /**
@@ -69,6 +70,7 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_activate' => 'boolean',
+        'is_super_admin' => 'boolean',
     ];
 
     /*

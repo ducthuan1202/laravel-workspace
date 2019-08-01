@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckOwner;
+use App\Http\Middleware\CheckPermission;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,6 +64,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         'check.owner' => CheckOwner::class,
+        'check.permissions' => CheckPermission::class,
     ];
 
     /**

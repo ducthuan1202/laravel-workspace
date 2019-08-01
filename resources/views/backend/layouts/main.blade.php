@@ -44,13 +44,15 @@
 <script src="{{ asset('vendor/menucontext/jquery.ui.position.js') }}"></script>
 <script src="{{ asset('vendor/blockui/jquery.blockui.min.js') }}"></script>
 <script src="{{ asset('vendor/socket/socket.io.js') }}"></script>
+<script src="{{ asset('vendor/mask/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('vendor/slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
+<script src="{{ admin_asset('js/jses6.js') }}"></script>
+<script src="{{ admin_asset('js/base-class.js') }}"></script>
 
-<script src="{{ admin_asset('js/closures.js') }}"></script>
-<script src="{{ admin_asset('js/app.js') }}"></script>
 <script>
 
     if(false){
-
 
         const socket = io('http://127.0.0.1:3000');
 

@@ -11,8 +11,8 @@ class User extends Authenticatable
     use Notifiable;
 
     const
-        YES = 1,
-        NO = 0;
+        BOOLEAN_TRUE = 1,
+        BOOLEAN_false = 0;
 
     /**
      * The attributes that are mass assignable.

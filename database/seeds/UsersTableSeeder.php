@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'user 01',
             'email' => 'user@website.vn',
             'password' => bcrypt('user@123'),
-            'is_activate' => User::YES,
+            'is_activate' => User::BOOLEAN_TRUE,
             'created_at'=> now()
         ]);
     }

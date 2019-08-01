@@ -18,8 +18,9 @@ class CreateAdminsTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('image')->nullable();
-            $table->boolean('role')->default(2); // 1: admin, 2: member
-            $table->boolean('is_activate')->default(0); // 0: no, 1: yes
+            $table->boolean('role')->default(2);
+            $table->boolean('is_activate')->default(\App\Entities\BaseModel::BOOLEAN_TRUE);
+            $table->boolean('is_super_admin')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
